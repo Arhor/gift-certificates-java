@@ -1,0 +1,21 @@
+subprojects {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    tasks {
+        withType(JavaCompile) {
+            options.compilerArgs.addAll[
+                    '-Xlint:unchecked',
+                    '-Xlint:deprecation',
+            ]
+        }
+    }
+}
+
+tasks {
+    wrapper {
+        gradleVersion = '7.3'
+    }
+}
