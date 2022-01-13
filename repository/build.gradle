@@ -1,8 +1,50 @@
 plugins {
+    id 'org.flywaydb.flyway'
     id 'java-library'
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = libs.versions.java.get()
+    targetCompatibility = libs.versions.java.get()
+}
+
+dependencies {
+    annotationProcessor "org.springframework:spring-context-indexer:${libs.versions.spring.get()}"
+
+    implementation libs.logback.core
+    implementation libs.logback.classic
+
+    implementation "org.flywaydb:flyway-core:${libs.versions.flyway.get()}"
+    implementation "com.zaxxer:HikariCP:${libs.versions.hikariCP.get()}"
+    implementation "org.slf4j:slf4j-api:${libs.versions.slf4j.get()}"
+
+    implementation "org.springframework:spring-context:${libs.versions.spring.get()}"
+    implementation "org.springframework:spring-jdbc:${libs.versions.spring.get()}"
+
+    runtimeOnly "org.postgresql:postgresql:${libs.versions.postgresql.get()}"
+
+    testImplementation "org.assertj:assertj-core:${libs.versions.assertJCore.get()}"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:${libs.versions.junitJupiter.get()}"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${libs.versions.junitJupiter.get()}"
+    testImplementation "org.mockito:mockito-core:${libs.versions.mockitoCore.get()}"
+    testImplementation "org.mockito:mockito-junit-jupiter:${libs.versions.mockitoCore.get()}"
+    testImplementation "org.springframework:spring-test:${libs.versions.spring.get()}"
+    testImplementation "org.testcontainers:junit-jupiter:${libs.versions.testcontainers.get()}"
+    testImplementation "org.testcontainers:postgresql:${libs.versions.testcontainers.get()}"
+
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${libs.versions.junitJupiter.get()}"
+}
+
+flyway {
+    url = System.getenv('JDBC_DATABASE_URL') ?: 'jdbc:postgresql://localhost:5432/gift_certificates'
+    user = System.getenv('JDBC_DATABASE_USERNAME') ?: 'postgres'
+    password = System.getenv('JDBC_DATABASE_PASSWORD') ?: 'password'
+
+    driver = 'org.postgresql.Driver'
+    encoding = 'UTF-8'
+    locations = ['classpath:db/migration']
+}
+
+tasks.withType(Test) {
+    useJUnitPlatform()
 }
