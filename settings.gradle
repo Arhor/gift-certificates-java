@@ -20,6 +20,7 @@ dependencyResolutionManagement {
             version 'logback',        settings['versions.logback']
             version 'hikariCP',       settings['versions.hikariCP']
             version 'slf4j',          settings['versions.slf4j']
+            version 'mapstruct',      settings['versions.mapstruct']
             version 'postgresql',     settings['versions.postgresql']
             version 'assertJCore',    settings['versions.assertJCore']
             version 'flyway',         settings['versions.flyway']

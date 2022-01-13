@@ -6,3 +6,33 @@ java {
     sourceCompatibility = libs.versions.java.get()
     targetCompatibility = libs.versions.java.get()
 }
+
+dependencies {
+    annotationProcessor("org.mapstruct:mapstruct-processor:${libs.versions.mapstruct.get()}")
+    annotationProcessor("org.springframework:spring-context-indexer:${libs.versions.spring.get()}")
+
+    implementation(project(":repository"))
+
+    implementation("ch.qos.logback:logback-core:${libs.versions.logback.get()}")
+    implementation("ch.qos.logback:logback-classic:${libs.versions.logback.get()}")
+
+    implementation("org.mapstruct:mapstruct:${libs.versions.mapstruct.get()}")
+
+    implementation("org.slf4j:slf4j-api:${libs.versions.slf4j.get()}")
+
+    implementation("org.springframework:spring-context:${libs.versions.spring.get()}")
+    implementation("org.springframework:spring-tx:${libs.versions.spring.get()}")
+
+    testImplementation("org.assertj:assertj-core:${libs.versions.assertJCore.get()}")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:${libs.versions.junitJupiter.get()}")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${libs.versions.junitJupiter.get()}")
+    testImplementation("org.mockito:mockito-core:${libs.versions.mockitoCore.get()}")
+    testImplementation("org.mockito:mockito-junit-jupiter:${libs.versions.mockitoCore.get()}")
+    testImplementation("org.springframework:spring-test:${libs.versions.spring.get()}")
+
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${libs.versions.junitJupiter.get()}")
+}
+
+tasks.withType(Test) {
+    useJUnitPlatform()
+}

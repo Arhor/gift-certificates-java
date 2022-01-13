@@ -152,7 +152,6 @@ public class Certificate implements Entity<Long>, Auditable<LocalDateTime> {
     }
 
     public static class Builder {
-
         private Long id;
         private String name;
         private String description;
