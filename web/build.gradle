@@ -1,8 +1,28 @@
 plugins {
-    id 'java-library'
+    id 'war'
 }
 
 java {
     sourceCompatibility = libs.versions.java.get()
     targetCompatibility = libs.versions.java.get()
+}
+
+dependencies {
+    annotationProcessor "org.springframework:spring-context-indexer:${libs.versions.spring.get()}"
+
+    compileOnly "javax.servlet:javax.servlet-api:${libs.versions.servlet.get()}"
+
+    implementation(project(":service"))
+
+    implementation "ch.qos.logback:logback-core:${libs.versions.logback.get()}"
+    implementation "ch.qos.logback:logback-classic:${libs.versions.logback.get()}"
+
+    implementation "com.fasterxml.jackson.core:jackson-databind:${libs.versions.jackson.get()}"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${libs.versions.jackson.get()}"
+
+    implementation "org.apache.commons:commons-lang3:${libs.versions.apacheCommonsLang.get()}"
+
+    implementation "org.springframework:spring-context:${libs.versions.spring.get()}"
+    implementation "org.springframework:spring-context-support:${libs.versions.spring.get()}"
+    implementation "org.springframework:spring-webmvc:${libs.versions.spring.get()}"
 }

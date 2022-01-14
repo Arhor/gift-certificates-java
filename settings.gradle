@@ -15,18 +15,21 @@ enableFeaturePreview 'VERSION_CATALOGS'
 dependencyResolutionManagement {
     versionCatalogs {
         libs {
-            version 'java',           settings['versions.java']
-            version 'spring',         settings['versions.spring']
-            version 'logback',        settings['versions.logback']
-            version 'hikariCP',       settings['versions.hikariCP']
-            version 'slf4j',          settings['versions.slf4j']
-            version 'mapstruct',      settings['versions.mapstruct']
-            version 'postgresql',     settings['versions.postgresql']
-            version 'assertJCore',    settings['versions.assertJCore']
-            version 'flyway',         settings['versions.flyway']
-            version 'junitJupiter',   settings['versions.junitJupiter']
-            version 'mockitoCore',    settings['versions.mockitoCore']
-            version 'testcontainers', settings['versions.testcontainers']
+            version 'java',              settings['versions.java']
+            version 'spring',            settings['versions.spring']
+            version 'servlet',           settings['versions.servlet']
+            version 'logback',           settings['versions.logback']
+            version 'hikariCP',          settings['versions.hikariCP']
+            version 'slf4j',             settings['versions.slf4j']
+            version 'jackson',           settings['versions.jackson']
+            version 'apacheCommonsLang', settings['versions.apacheCommonsLang']
+            version 'mapstruct',         settings['versions.mapstruct']
+            version 'postgresql',        settings['versions.postgresql']
+            version 'assertJCore',       settings['versions.assertJCore']
+            version 'flyway',            settings['versions.flyway']
+            version 'junitJupiter',      settings['versions.junitJupiter']
+            version 'mockitoCore',       settings['versions.mockitoCore']
+            version 'testcontainers',    settings['versions.testcontainers']
 
             alias 'logback-core'    to 'ch.qos.logback', 'logback-core'    versionRef 'logback'
             alias 'logback-classic' to 'ch.qos.logback', 'logback-classic' versionRef 'logback'
