@@ -1,0 +1,84 @@
+plugins {
+    id 'war'
+    id 'jacoco'
+}
+
+java {
+    sourceCompatibility = libs.versions.java.get()
+    targetCompatibility = libs.versions.java.get()
+}
+
+dependencies {
+    annotationProcessor "org.springframework:spring-context-indexer:${libs.versions.spring.get()}"
+
+    compileOnly "javax.servlet:javax.servlet-api:${libs.versions.servlet.get()}"
+
+    implementation project(':app-server:module-web')
+    implementation "com.fasterxml.jackson.core:jackson-databind:${libs.versions.jackson.get()}"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${libs.versions.jackson.get()}"
+    implementation "org.springframework:spring-webmvc:${libs.versions.spring.get()}"
+
+    testImplementation "org.assertj:assertj-core:${libs.versions.assertJCore.get()}"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:${libs.versions.junitJupiter.get()}"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${libs.versions.junitJupiter.get()}"
+    testImplementation "org.mockito:mockito-core:${libs.versions.mockitoCore.get()}"
+    testImplementation "org.mockito:mockito-junit-jupiter:${libs.versions.mockitoCore.get()}"
+    testImplementation "org.springframework:spring-test:${libs.versions.spring.get()}"
+
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${libs.versions.junitJupiter.get()}"
+}
+
+jacocoTestReport {
+    dependsOn test
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+task jacocoTestReportRoot(type: JacocoReport, group: 'verification', dependsOn: jacocoTestReport) {
+    description = 'Generates aggregate report from all subprojects.'
+
+    subprojects.each {
+        it.afterEvaluate {
+            def subprojectJacocoTestReport = it.tasks.findByName('jacocoTestReport')
+
+            if (subprojectJacocoTestReport != null) {
+                dependsOn subprojectJacocoTestReport
+            }
+        }
+    }
+
+    classDirectories.setFrom(
+            files([fileTree(
+                    dir: "${project.projectDir}",
+                    includes: ['**/build/classes/java/**/*.class'],
+                    exclude: [
+                            '**/config/*',
+                            '**/model/*',
+                            '**/dto/*',
+                    ]
+            )])
+    )
+    sourceDirectories.setFrom(
+            files([fileTree(
+                    dir: "${project.projectDir}",
+                    includes: ['**/src/main/java/**/*.*']
+            )])
+    )
+    executionData.setFrom(
+            files([fileTree(
+                    dir: "${project.projectDir}",
+                    includes: ['**/build/jacoco/*.exec']
+            )])
+    )
+
+    reports {
+        xml.required.set(false)
+        csv.required.set(false)
+
+        html.required.set(true)
+        html.destination file("${project.projectDir}/build/reports/jacoco/root")
+    }
+}

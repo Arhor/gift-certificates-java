@@ -6,9 +6,10 @@ pluginManagement {
 
 rootProject.name = 'gift-certificates-java'
 
-include ':repository'
-include ':service'
-include ':web'
+include ':app-server'
+include ':app-server:module-repository'
+include ':app-server:module-service'
+include ':app-server:module-web'
 
 enableFeaturePreview 'VERSION_CATALOGS'
 
@@ -20,7 +21,6 @@ dependencyResolutionManagement {
             version 'servlet',           settings['versions.servlet']
             version 'logback',           settings['versions.logback']
             version 'hikariCP',          settings['versions.hikariCP']
-            version 'slf4j',             settings['versions.slf4j']
             version 'jackson',           settings['versions.jackson']
             version 'apacheCommonsLang', settings['versions.apacheCommonsLang']
             version 'mapstruct',         settings['versions.mapstruct']

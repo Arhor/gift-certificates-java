@@ -4,13 +4,11 @@ subprojects {
         mavenCentral()
     }
 
-    tasks {
-        withType(JavaCompile) {
-            options.compilerArgs.addAll[
-                    '-Xlint:unchecked',
-                    '-Xlint:deprecation',
-            ]
-        }
+    tasks.withType(JavaCompile) {
+        options.compilerArgs.addAll([
+                '-Xlint:unchecked',
+                '-Xlint:deprecation',
+        ])
     }
 }
 
