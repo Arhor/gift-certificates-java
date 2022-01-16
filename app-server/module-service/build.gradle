@@ -15,6 +15,8 @@ dependencies {
     implementation "ch.qos.logback:logback-core:${libs.versions.logback.get()}"
     implementation "ch.qos.logback:logback-classic:${libs.versions.logback.get()}"
     implementation "org.mapstruct:mapstruct:${libs.versions.mapstruct.get()}"
+    implementation "org.apache.commons:commons-collections4:${libs.versions.apacheCommonsCollections.get()}"
+    implementation "javax.validation:validation-api:${libs.versions.validationApi.get()}"
     implementation "org.springframework:spring-context:${libs.versions.spring.get()}"
     implementation "org.springframework:spring-tx:${libs.versions.spring.get()}"
 

@@ -17,14 +17,14 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 
 import com.epam.esm.gift.model.Auditable;
 import com.epam.esm.gift.model.Entity;
-import com.epam.esm.gift.repository.Repository;
+import com.epam.esm.gift.repository.BaseRepository;
 import com.epam.esm.gift.repository.bootstrap.EntityModel;
 import com.epam.esm.gift.repository.bootstrap.Queries;
 import com.epam.esm.gift.repository.bootstrap.QueryProvider;
 import com.epam.esm.gift.repository.bootstrap.RepositoryIntrospector;
 
 public abstract class AbstractRepository<T extends Entity<K>, K extends Serializable>
-    implements Repository<T, K>, InitializingBean {
+    implements BaseRepository<T, K>, InitializingBean {
 
     protected RowMapper<T> rowMapper;
 

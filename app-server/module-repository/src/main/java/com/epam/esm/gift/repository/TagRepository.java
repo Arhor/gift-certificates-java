@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import com.epam.esm.gift.model.Tag;
 
-public interface TagRepository extends Repository<Tag, Long> {
+public interface TagRepository extends BaseRepository<Tag, Long> {
 
     Optional<Tag> findTagByName(String name);
 

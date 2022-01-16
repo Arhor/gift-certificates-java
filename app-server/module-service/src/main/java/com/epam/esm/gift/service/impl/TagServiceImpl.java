@@ -4,18 +4,16 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.epam.esm.gift.converter.EntityMapper;
 import com.epam.esm.gift.dto.TagDTO;
 import com.epam.esm.gift.error.EntityDuplicateException;
 import com.epam.esm.gift.error.EntityNotFoundException;
+import com.epam.esm.gift.mapper.EntityMapper;
 import com.epam.esm.gift.model.Tag;
 import com.epam.esm.gift.repository.TagRepository;
 import com.epam.esm.gift.service.BaseService;
 
 @Service
-@Transactional
 public class TagServiceImpl implements BaseService<TagDTO, Long> {
 
     private final TagRepository tagRepository;

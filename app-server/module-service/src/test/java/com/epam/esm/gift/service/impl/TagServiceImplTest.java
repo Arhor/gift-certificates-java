@@ -14,7 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.epam.esm.gift.converter.TagEntityMapper;
+import com.epam.esm.gift.mapper.TagEntityMapper;
 import com.epam.esm.gift.dto.TagDTO;
 import com.epam.esm.gift.error.EntityNotFoundException;
 import com.epam.esm.gift.model.Tag;

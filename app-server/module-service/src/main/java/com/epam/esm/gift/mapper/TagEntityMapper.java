@@ -1,4 +1,4 @@
-package com.epam.esm.gift.converter;
+package com.epam.esm.gift.mapper;
 
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;

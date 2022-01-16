@@ -6,24 +6,20 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import com.epam.esm.gift.model.Certificate;
-import com.epam.esm.gift.repository.impl.CertificateRepositoryImpl;
 
 @Transactional
-@ExtendWith(SpringExtension.class)
+@SpringJUnitConfig(TestDatabaseConfig.class)
 @Testcontainers(disabledWithoutDocker = true)
-@ContextConfiguration(classes = {TestDatabaseConfig.class})
-class CertificateRepositoryImplTest {
+class CertificateRepositoryTest {
 
     @Autowired
-    private CertificateRepositoryImpl repository;
+    private CertificateRepository repository;
 
     @Test
     void should_correctly_persist_and_find_new_certificate() {

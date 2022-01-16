@@ -6,7 +6,7 @@ import java.util.Map;
 import com.epam.esm.gift.model.Certificate;
 import com.epam.esm.gift.repository.bootstrap.ColumnProperty;
 
-public interface CertificateRepository extends Repository<Certificate, Long> {
+public interface CertificateRepository extends BaseRepository<Certificate, Long> {
 
     void updatePartially(Long certificateId, List<Map.Entry<ColumnProperty, Object>> diffs);
 }

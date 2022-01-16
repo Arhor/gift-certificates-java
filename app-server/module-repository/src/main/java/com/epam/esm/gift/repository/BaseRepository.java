@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import com.epam.esm.gift.model.Entity;
 
-public interface Repository<T extends Entity<K>, K extends Serializable> {
+public interface BaseRepository<T extends Entity<K>, K extends Serializable> {
 
     T create(T entity);
 
