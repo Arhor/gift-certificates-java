@@ -1,7 +1,19 @@
 package com.epam.esm.gift.dto;
 
+import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public record TagDTO(
+    @JsonProperty(access = READ_ONLY)
     Long id,
+
+    @NotBlank
+    @Size(min = 3, max = 30)
     String name
 ) {
 

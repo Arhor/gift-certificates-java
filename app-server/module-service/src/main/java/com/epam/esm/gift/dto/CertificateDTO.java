@@ -1,17 +1,47 @@
 package com.epam.esm.gift.dto;
 
+import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
+
+import org.apache.commons.collections4.ListUtils;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public record CertificateDTO(
+    @JsonProperty(access = READ_ONLY)
     Long id,
+
+    @NotBlank
+    @Size(min = 3, max = 100)
     String name,
+
+    @Size(min = 3, max = 1000)
     String description,
+
+    @NotNull
+    @Positive
+    @Digits(integer = 10, fraction = 2)
     BigDecimal price,
+
+    @NotNull
+    @Positive
     Integer duration,
+
+    @JsonProperty(access = READ_ONLY)
     LocalDateTime dateTimeCreated,
+
+    @JsonProperty(access = READ_ONLY)
     LocalDateTime dateTimeUpdated,
+
     List<TagDTO> tags
 ) {
 
@@ -44,7 +74,7 @@ public record CertificateDTO(
             this.duration = certificate.duration;
             this.dateTimeCreated = certificate.dateTimeCreated;
             this.dateTimeUpdated = certificate.dateTimeUpdated;
-            this.tags = certificate.tags;
+            this.tags = ListUtils.emptyIfNull(certificate.tags);
         }
 
         public Builder id(final Long id) {
@@ -83,7 +113,7 @@ public record CertificateDTO(
         }
 
         public Builder tags(final List<TagDTO> tags) {
-            this.tags = List.copyOf(tags);
+            this.tags = ListUtils.emptyIfNull(tags);
             return this;
         }
 
