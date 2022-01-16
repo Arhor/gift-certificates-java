@@ -14,32 +14,32 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.epam.esm.gift.dto.TagDTO;
+import com.epam.esm.gift.dto.TagDto;
 import com.epam.esm.gift.service.BaseService;
 
 @RestController
 @RequestMapping("/tags")
 public class TagController {
 
-    private final BaseService<TagDTO, Long> service;
+    private final BaseService<TagDto, Long> service;
 
-    public TagController(final BaseService<TagDTO, Long> service) {
+    public TagController(final BaseService<TagDto, Long> service) {
         this.service = service;
     }
 
     @GetMapping
-    public List<TagDTO> getAllTags() {
+    public List<TagDto> getAllTags() {
         return service.findAll();
     }
 
     @GetMapping("/{tagId}")
-    public TagDTO getTagById(@PathVariable final Long tagId) {
+    public TagDto getTagById(@PathVariable final Long tagId) {
         return service.findOne(tagId);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<TagDTO> createNewTag(@RequestBody final TagDTO tag) {
+    public ResponseEntity<TagDto> createNewTag(@RequestBody final TagDto tag) {
         var createdTag = service.create(tag);
 
         var location =

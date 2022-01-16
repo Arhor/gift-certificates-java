@@ -5,6 +5,8 @@ import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
@@ -16,7 +18,7 @@ import org.apache.commons.collections4.ListUtils;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class CertificateDTO {
+public class CertificateDto {
 
     @JsonProperty(access = READ_ONLY)
     private final Long id;
@@ -43,9 +45,9 @@ public class CertificateDTO {
     @JsonProperty(access = READ_ONLY)
     private final LocalDateTime dateTimeUpdated;
 
-    private final List<TagDTO> tags;
+    private final List<TagDto> tags;
 
-    public CertificateDTO(Long id, String name, String description, BigDecimal price, Integer duration, LocalDateTime dateTimeCreated, LocalDateTime dateTimeUpdated, List<TagDTO> tags) {
+    public CertificateDto(Long id, String name, String description, BigDecimal price, Integer duration, LocalDateTime dateTimeCreated, LocalDateTime dateTimeUpdated, List<TagDto> tags) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -84,7 +86,7 @@ public class CertificateDTO {
         return dateTimeUpdated;
     }
 
-    public List<TagDTO> tags() {
+    public List<TagDto> tags() {
         return tags;
     }
 
@@ -116,7 +118,7 @@ public class CertificateDTO {
         return dateTimeUpdated;
     }
 
-    public List<TagDTO> getTags() {
+    public List<TagDto> getTags() {
         return tags;
     }
 
@@ -128,6 +130,40 @@ public class CertificateDTO {
         return new Builder(this);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        var that = (CertificateDto) o;
+        return Objects.equals(id, that.id)
+            && Objects.equals(name, that.name)
+            && Objects.equals(description, that.description)
+            && Objects.equals(price, that.price)
+            && Objects.equals(duration, that.duration)
+            && Objects.equals(dateTimeCreated, that.dateTimeCreated)
+            && Objects.equals(dateTimeUpdated, that.dateTimeUpdated)
+            && Objects.equals(tags, that.tags);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, price, duration, dateTimeCreated, dateTimeUpdated, tags);
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", CertificateDto.class.getSimpleName() + "[", "]")
+            .add("id=" + id)
+            .add("name='" + name + "'")
+            .add("description='" + description + "'")
+            .add("price=" + price)
+            .add("duration=" + duration)
+            .add("dateTimeCreated=" + dateTimeCreated)
+            .add("dateTimeUpdated=" + dateTimeUpdated)
+            .add("tags=" + tags)
+            .toString();
+    }
+
     public static class Builder {
         private Long id;
         private String name;
@@ -136,12 +172,12 @@ public class CertificateDTO {
         private Integer duration;
         private LocalDateTime dateTimeCreated;
         private LocalDateTime dateTimeUpdated;
-        private List<TagDTO> tags;
+        private List<TagDto> tags;
 
         private Builder() {
         }
 
-        private Builder(final CertificateDTO certificate) {
+        private Builder(final CertificateDto certificate) {
             this.id = certificate.id;
             this.name = certificate.name;
             this.description = certificate.description;
@@ -187,13 +223,13 @@ public class CertificateDTO {
             return this;
         }
 
-        public Builder tags(final List<TagDTO> tags) {
+        public Builder tags(final List<TagDto> tags) {
             this.tags = ListUtils.emptyIfNull(tags);
             return this;
         }
 
-        public CertificateDTO build() {
-            return new CertificateDTO(
+        public CertificateDto build() {
+            return new CertificateDto(
                 id,
                 name,
                 description,

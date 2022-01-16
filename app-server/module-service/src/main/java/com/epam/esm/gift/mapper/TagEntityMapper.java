@@ -4,16 +4,16 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 
 import com.epam.esm.gift.config.MapStructConfig;
-import com.epam.esm.gift.dto.TagDTO;
+import com.epam.esm.gift.dto.TagDto;
 import com.epam.esm.gift.model.Tag;
 
 @Mapper(config = MapStructConfig.class)
-public interface TagEntityMapper extends EntityMapper<Tag, TagDTO> {
+public interface TagEntityMapper extends EntityMapper<Tag, TagDto> {
 
     @Override
-    Tag mapDtoToEntity(TagDTO item);
+    Tag mapDtoToEntity(TagDto item);
 
     @Override
     @InheritInverseConfiguration
-    TagDTO mapEntityToDto(Tag item);
+    TagDto mapEntityToDto(Tag item);
 }

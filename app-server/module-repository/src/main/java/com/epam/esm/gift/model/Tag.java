@@ -20,6 +20,14 @@ public class Tag implements Entity<Long> {
     @Column(name = COL_NAME)
     private String name;
 
+    public Tag() {
+    }
+
+    public Tag(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public static Builder builder() {
         return new Builder();
     }

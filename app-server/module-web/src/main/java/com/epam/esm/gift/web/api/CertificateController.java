@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.epam.esm.gift.dto.CertificateDTO;
+import com.epam.esm.gift.dto.CertificateDto;
 import com.epam.esm.gift.service.BaseService;
 
 @RestController
@@ -32,25 +32,25 @@ public class CertificateController {
         log.info("INITIALIZED");
     }
 
-    private final BaseService<CertificateDTO, Long> service;
+    private final BaseService<CertificateDto, Long> service;
 
-    public CertificateController(BaseService<CertificateDTO, Long> service) {
+    public CertificateController(BaseService<CertificateDto, Long> service) {
         this.service = service;
     }
 
     @GetMapping
-    public List<CertificateDTO> getAllTags() {
+    public List<CertificateDto> getAllTags() {
         return service.findAll();
     }
 
     @GetMapping("/{certificateId}")
-    public CertificateDTO getTagById(@PathVariable final Long certificateId) {
+    public CertificateDto getTagById(@PathVariable final Long certificateId) {
         return service.findOne(certificateId);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<CertificateDTO> createCertificate(@RequestBody final CertificateDTO certificate) {
+    public ResponseEntity<CertificateDto> createCertificate(@RequestBody final CertificateDto certificate) {
         var createdCertificate = service.create(certificate);
 
         var location =
@@ -62,7 +62,7 @@ public class CertificateController {
     }
 
     @PatchMapping
-    public CertificateDTO updateCertificate(@RequestBody final CertificateDTO certificate) {
+    public CertificateDto updateCertificate(@RequestBody final CertificateDto certificate) {
         return service.update(certificate);
     }
 

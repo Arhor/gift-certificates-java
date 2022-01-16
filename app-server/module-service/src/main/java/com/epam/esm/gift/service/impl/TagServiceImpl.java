@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.epam.esm.gift.dto.TagDTO;
+import com.epam.esm.gift.dto.TagDto;
 import com.epam.esm.gift.error.EntityDuplicateException;
 import com.epam.esm.gift.error.EntityNotFoundException;
 import com.epam.esm.gift.mapper.EntityMapper;
@@ -16,29 +16,29 @@ import com.epam.esm.gift.repository.TagRepository;
 import com.epam.esm.gift.service.BaseService;
 
 @Service
-public class TagServiceImpl implements BaseService<TagDTO, Long> {
+public class TagServiceImpl implements BaseService<TagDto, Long> {
 
     private final TagRepository tagRepository;
-    private final EntityMapper<Tag, TagDTO> tagConverter;
+    private final EntityMapper<Tag, TagDto> tagConverter;
 
     @Autowired
-    public TagServiceImpl(final TagRepository tagRepository, final EntityMapper<Tag, TagDTO> tagConverter) {
+    public TagServiceImpl(final TagRepository tagRepository, final EntityMapper<Tag, TagDto> tagConverter) {
         this.tagRepository = tagRepository;
         this.tagConverter = tagConverter;
     }
 
     @Override
-    public TagDTO findOne(final Long id) {
+    public TagDto findOne(final Long id) {
         return tagRepository.findById(id).map(tagConverter::mapEntityToDto).orElseThrow(() -> tagIsNotFound(id));
     }
 
     @Override
-    public List<TagDTO> findAll() {
+    public List<TagDto> findAll() {
         return tagRepository.findAll().stream().map(tagConverter::mapEntityToDto).collect(toList());
     }
 
     @Override
-    public TagDTO create(final TagDTO item) {
+    public TagDto create(final TagDto item) {
         checkIfTagNameAlreadyExists(item.name());
 
         var newTag = tagConverter.mapDtoToEntity(item);
@@ -48,7 +48,7 @@ public class TagServiceImpl implements BaseService<TagDTO, Long> {
     }
 
     @Override
-    public TagDTO update(final TagDTO item) {
+    public TagDto update(final TagDto item) {
         checkIfTagNameAlreadyExists(item.name());
 
         var tag = tagConverter.mapDtoToEntity(item);

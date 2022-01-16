@@ -2,12 +2,15 @@ package com.epam.esm.gift.dto;
 
 import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
 
+import java.util.Objects;
+import java.util.StringJoiner;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class TagDTO {
+public class TagDto {
 
     @JsonProperty(access = READ_ONLY)
     private final Long id;
@@ -16,7 +19,7 @@ public class TagDTO {
     @Size(min = 3, max = 30)
     private final String name;
 
-    public TagDTO(Long id, String name) {
+    public TagDto(Long id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -45,6 +48,28 @@ public class TagDTO {
         return new Builder(this);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        var that = (TagDto) o;
+        return Objects.equals(id, that.id)
+            && Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", TagDto.class.getSimpleName() + "[", "]")
+            .add("id=" + id)
+            .add("name='" + name + "'")
+            .toString();
+    }
+
     public static class Builder {
         private Long id;
         private String name;
@@ -52,7 +77,7 @@ public class TagDTO {
         private Builder() {
         }
 
-        private Builder(final TagDTO tag) {
+        private Builder(final TagDto tag) {
             this.id = tag.id;
             this.name = tag.name;
         }
@@ -67,8 +92,8 @@ public class TagDTO {
             return this;
         }
 
-        public TagDTO build() {
-            return new TagDTO(
+        public TagDto build() {
+            return new TagDto(
                 id,
                 name
             );
