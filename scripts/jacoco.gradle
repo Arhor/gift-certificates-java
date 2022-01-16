@@ -1,15 +1,7 @@
 apply plugin: 'jacoco'
 
 jacoco {
-    toolVersion = '0.8.7+'
-}
-
-ext {
-    jacocoExclusions = [
-            '**/config/*',
-            '**/model/*',
-            '**/dto/*',
-    ]
+    toolVersion = libs.versions.jacoco.get()
 }
 
 jacocoTestReport {

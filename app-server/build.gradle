@@ -1,9 +1,8 @@
 plugins {
     id 'java'
+    id 'jacoco'
     id 'war'
 }
-
-apply from: "${rootDir}/scripts/jacoco.gradle"
 
 java {
     sourceCompatibility = libs.versions.java.get()
@@ -28,6 +27,19 @@ dependencies {
     testImplementation "org.springframework:spring-test:${libs.versions.spring.get()}"
 
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${libs.versions.junitJupiter.get()}"
+}
+
+ext {
+    jacocoExclusions = [
+            'com/epam/esm/gift/config/**',
+            'com/epam/esm/gift/model/**',
+            'com/epam/esm/gift/dto/**',
+            'com/epam/esm/gift/mapper/**',
+    ]
+}
+
+jacoco {
+    toolVersion = libs.versions.jacoco.get()
 }
 
 jacocoTestReport {
