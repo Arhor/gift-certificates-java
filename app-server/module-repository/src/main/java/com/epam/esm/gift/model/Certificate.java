@@ -114,9 +114,10 @@ public class Certificate implements Entity<Long>, Auditable<LocalDateTime> {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof Certificate certificate)) {
+        if (!(obj instanceof Certificate)) {
             return false;
         }
+        var certificate = (Certificate) obj;
         return Objects.equals(id, certificate.id)
             && Objects.equals(dateTimeCreated, certificate.dateTimeCreated)
             && Objects.equals(duration, certificate.duration)

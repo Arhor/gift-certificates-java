@@ -16,34 +16,77 @@ import org.apache.commons.collections4.ListUtils;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record CertificateDTO(
+public class CertificateDTO {
+
     @JsonProperty(access = READ_ONLY)
-    Long id,
+    private final Long id;
 
     @NotBlank
     @Size(min = 3, max = 100)
-    String name,
+    private final String name;
 
     @Size(min = 3, max = 1000)
-    String description,
+    private final String description;
 
     @NotNull
     @Positive
     @Digits(integer = 10, fraction = 2)
-    BigDecimal price,
+    private final BigDecimal price;
 
     @NotNull
     @Positive
-    Integer duration,
+    private final Integer duration;
 
     @JsonProperty(access = READ_ONLY)
-    LocalDateTime dateTimeCreated,
+    private final LocalDateTime dateTimeCreated;
 
     @JsonProperty(access = READ_ONLY)
-    LocalDateTime dateTimeUpdated,
+    private final LocalDateTime dateTimeUpdated;
 
-    List<TagDTO> tags
-) {
+    private final List<TagDTO> tags;
+
+    public CertificateDTO(Long id, String name, String description, BigDecimal price, Integer duration, LocalDateTime dateTimeCreated, LocalDateTime dateTimeUpdated, List<TagDTO> tags) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.duration = duration;
+        this.dateTimeCreated = dateTimeCreated;
+        this.dateTimeUpdated = dateTimeUpdated;
+        this.tags = tags;
+    }
+
+    public Long id() {
+        return id;
+    }
+
+    public String name() {
+        return name;
+    }
+
+    public String description() {
+        return description;
+    }
+
+    public BigDecimal price() {
+        return price;
+    }
+
+    public Integer duration() {
+        return duration;
+    }
+
+    public LocalDateTime dateTimeCreated() {
+        return dateTimeCreated;
+    }
+
+    public LocalDateTime dateTimeUpdated() {
+        return dateTimeUpdated;
+    }
+
+    public List<TagDTO> tags() {
+        return tags;
+    }
 
     public static Builder builder() {
         return new Builder();

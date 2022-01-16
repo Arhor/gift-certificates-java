@@ -30,8 +30,8 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
     public FrameworkServlet createDispatcherServlet(final WebApplicationContext servletAppContext) {
         var frameworkServlet = super.createDispatcherServlet(servletAppContext);
 
-        if (frameworkServlet instanceof DispatcherServlet dispatcherServlet) {
-            dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
+        if (frameworkServlet instanceof DispatcherServlet) {
+            ((DispatcherServlet) frameworkServlet).setThrowExceptionIfNoHandlerFound(true);
         }
         return frameworkServlet;
     }

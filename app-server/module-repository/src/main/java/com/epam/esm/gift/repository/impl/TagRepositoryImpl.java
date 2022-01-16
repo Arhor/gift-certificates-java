@@ -33,12 +33,7 @@ public class TagRepositoryImpl extends AbstractRepository<Tag, Long> implements 
     @Override
     public List<Tag> findTagsByCertificateId(final Long certificateId) {
         return jdbcTemplate.query(
-            """
-            SELECT t.id, t.name
-            FROM tags t
-            JOIN certificates_has_tags cht on t.id = cht.tags_id
-            WHERE cht.certificates_id = :certificateId
-            """,
+            "SELECT t.id, t.name FROM tags t JOIN certificates_has_tags cht on t.id = cht.tags_id WHERE cht.certificates_id = :certificateId",
             Map.of("certificateId", certificateId),
             rowMapper
         );
@@ -72,11 +67,7 @@ public class TagRepositoryImpl extends AbstractRepository<Tag, Long> implements 
     @Override
     public void removeAllTagsFromCertificate(final Long certificateId) {
         jdbcTemplate.update(
-            """
-            DELETE
-            FROM certificates_has_tags cht
-            WHERE cht.certificates_id = :certificateId
-            """,
+            "DELETE FROM certificates_has_tags cht WHERE cht.certificates_id = :certificateId",
             Map.of("certificateId", certificateId)
         );
     }

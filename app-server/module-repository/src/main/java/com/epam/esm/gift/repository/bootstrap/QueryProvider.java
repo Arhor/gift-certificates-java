@@ -38,11 +38,11 @@ public class QueryProvider {
         var colsToProps = colsToProps(restColumnsArray);
 
         return new Queries(
-            SELECT_ALL_TEMPLATE.formatted(allColumns, tableName),
-            SELECT_ONE_TEMPLATE.formatted(allColumns, tableName, idColToIdProp),
-            DELETE_ONE_TEMPLATE.formatted(tableName, idColToIdProp),
-            INSERT_ONE_TEMPLATE.formatted(tableName, restColsRealNames, restColsPropNames),
-            UPDATE_ONE_TEMPLATE.formatted(tableName, colsToProps, idColToIdProp)
+            String.format(SELECT_ALL_TEMPLATE, allColumns, tableName),
+            String.format(SELECT_ONE_TEMPLATE, allColumns, tableName, idColToIdProp),
+            String.format(DELETE_ONE_TEMPLATE, tableName, idColToIdProp),
+            String.format(INSERT_ONE_TEMPLATE, tableName, restColsRealNames, restColsPropNames),
+            String.format(UPDATE_ONE_TEMPLATE, tableName, colsToProps, idColToIdProp)
         );
     }
 

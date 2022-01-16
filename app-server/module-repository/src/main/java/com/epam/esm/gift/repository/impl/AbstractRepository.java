@@ -53,8 +53,8 @@ public abstract class AbstractRepository<T extends Entity<K>, K extends Serializ
     @Override
     @SuppressWarnings("unchecked")
     public T create(final T entity) {
-        if (entity instanceof Auditable auditableEntity) {
-            auditableEntity.setDateTimeCreated(currentTime());
+        if (entity instanceof Auditable) {
+            ((Auditable<LocalDateTime>) entity).setDateTimeCreated(currentTime());
         }
         var insertOneQuery = queries.insertOne();
         var parameters = new BeanPropertySqlParameterSource(entity);
@@ -74,8 +74,8 @@ public abstract class AbstractRepository<T extends Entity<K>, K extends Serializ
     @Override
     @SuppressWarnings("unchecked")
     public T update(final T entity) {
-        if (entity instanceof Auditable auditableEntity) {
-            auditableEntity.setDateTimeUpdated(currentTime());
+        if (entity instanceof Auditable) {
+            ((Auditable<LocalDateTime>) entity).setDateTimeUpdated(currentTime());
         }
         var updateOneQuery = queries.updateOne();
         var parameters = new BeanPropertySqlParameterSource(entity);

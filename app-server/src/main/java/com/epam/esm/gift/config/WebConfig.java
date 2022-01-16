@@ -30,8 +30,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void extendMessageConverters(final List<HttpMessageConverter<?>> converters) {
         for (var converter : converters) {
-            if (converter instanceof MappingJackson2HttpMessageConverter jackson2HttpMessageConverter) {
-                var objectMapper = jackson2HttpMessageConverter.getObjectMapper();
+            if (converter instanceof MappingJackson2HttpMessageConverter) {
+                var objectMapper = ((MappingJackson2HttpMessageConverter) converter).getObjectMapper();
                 objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
                 objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
             }

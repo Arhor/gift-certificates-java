@@ -1,5 +1,6 @@
 package com.epam.esm.gift.repository;
 
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
@@ -71,12 +72,12 @@ class CertificateRepositoryTest {
         }
 
         // when
-        var allExistingCertificates = repository.findAll().stream().map(Certificate::getId).toList();
+        var allExistingCertificates = repository.findAll().stream().map(Certificate::getId).collect(toList());
 
         // then
         assertThat(allExistingCertificates)
             .hasSameSizeAs(initialCertificates)
-            .containsAll(initialCertificates.stream().map(Certificate::getId).toList());
+            .containsAll(initialCertificates.stream().map(Certificate::getId).collect(toList()));
     }
 
     @Test

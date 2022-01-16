@@ -1,12 +1,11 @@
 package com.epam.esm.gift.repository.impl;
 
-import java.sql.Types;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import com.epam.esm.gift.model.Certificate;
@@ -42,18 +41,19 @@ public class CertificateRepositoryImpl extends AbstractRepository<Certificate, L
             var params = new HashMap<String, Object>();
             params.put("certificateId", certificateId);
 
-            for (Map.Entry<ColumnProperty, Object> diff : diffs) {
+            for (var diff : diffs) {
                 var column = diff.getKey();
                 var value = diff.getValue();
                 params.put(column.propName(), value);
             }
 
+            var setExpression = diffs.stream()
+                .map(Map.Entry::getKey)
+                .map(it -> it.realName() + " = :" + it.propName())
+                .collect(Collectors.joining(", "));
+
             jdbcTemplate.update(
-                """
-                    UPDATE certificates
-                    SET ${diffs.joinToString { (column, _) -> "${column.realName} = :${column.propName}" }}
-                    WHERE id = :certificateId
-                    """,
+                "UPDATE certificates SET " + setExpression + " WHERE id = :certificateId",
                 params
             );
         }

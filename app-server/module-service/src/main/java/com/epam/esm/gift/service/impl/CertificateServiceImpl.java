@@ -1,8 +1,11 @@
 package com.epam.esm.gift.service.impl;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.ListUtils;
 import org.springframework.stereotype.Service;
@@ -60,7 +63,7 @@ public class CertificateServiceImpl implements BaseService<CertificateDTO, Long>
             .stream()
             .map(certificateConverter::mapEntityToDto)
             .map(this::initializeCertificateTags)
-            .toList();
+            .collect(toList());
     }
 
     @Override
@@ -105,7 +108,7 @@ public class CertificateServiceImpl implements BaseService<CertificateDTO, Long>
         var certificateTags = tagRepository.findTagsByCertificateId(certificate.id())
             .stream()
             .map(tagConverter::mapEntityToDto)
-            .toList();
+            .collect(toList());
 
         return certificate.copy().tags(certificateTags).build();
     }
@@ -118,21 +121,21 @@ public class CertificateServiceImpl implements BaseService<CertificateDTO, Long>
             return Collections.emptyList();
         }
 
-        var tagNames = tags.stream().map(TagDTO::name).filter(Objects::nonNull).toList();
+        var tagNames = tags.stream().map(TagDTO::name).filter(Objects::nonNull).collect(toList());
         var existingTags = tagRepository.findTagByNames(tagNames);
-        var existingTagNames = existingTags.stream().map(Tag::getName).toList();
+        var existingTagNames = existingTags.stream().map(Tag::getName).collect(toList());
 
         var createdTags = tags.stream()
             .filter(it -> !existingTagNames.contains(it.name()))
             .map(tagConverter::mapDtoToEntity)
             .map(tagRepository::create)
-            .toList();
+            .collect(toList());
 
         var certificateTags = ListUtils.union(existingTags, createdTags);
 
         tagRepository.addTagsToCertificate(certificateId, certificateTags);
 
-        return certificateTags.stream().map(tagConverter::mapEntityToDto).toList();
+        return certificateTags.stream().map(tagConverter::mapEntityToDto).collect(toList());
     }
 
     private EntityNotFoundException certificateIsNotFound(final Long id) {

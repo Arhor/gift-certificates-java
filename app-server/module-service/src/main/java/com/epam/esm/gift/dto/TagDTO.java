@@ -3,19 +3,31 @@ package com.epam.esm.gift.dto;
 import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record TagDTO(
+public class TagDTO {
+
     @JsonProperty(access = READ_ONLY)
-    Long id,
+    private final Long id;
 
     @NotBlank
     @Size(min = 3, max = 30)
-    String name
-) {
+    private final String name;
+
+    public TagDTO(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Long id() {
+        return id;
+    }
+
+    public String name() {
+        return name;
+    }
 
     public static Builder builder() {
         return new Builder();

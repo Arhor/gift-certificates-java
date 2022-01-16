@@ -1,7 +1,6 @@
 package com.epam.esm.gift.error;
 
-public abstract sealed class PropertyConditionException extends ServiceLayerException
-    permits EntityDuplicateException, EntityNotFoundException {
+public abstract class PropertyConditionException extends ServiceLayerException {
 
     private final String name;
     private final String condition;

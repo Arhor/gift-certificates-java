@@ -1,5 +1,7 @@
 package com.epam.esm.gift.service.impl;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +34,7 @@ public class TagServiceImpl implements BaseService<TagDTO, Long> {
 
     @Override
     public List<TagDTO> findAll() {
-        return tagRepository.findAll().stream().map(tagConverter::mapEntityToDto).toList();
+        return tagRepository.findAll().stream().map(tagConverter::mapEntityToDto).collect(toList());
     }
 
     @Override

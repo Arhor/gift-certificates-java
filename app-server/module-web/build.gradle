@@ -15,5 +15,6 @@ dependencies {
     implementation "ch.qos.logback:logback-classic:${libs.versions.logback.get()}"
     implementation "com.fasterxml.jackson.core:jackson-databind:${libs.versions.jackson.get()}"
     implementation "org.apache.commons:commons-lang3:${libs.versions.apacheCommonsLang.get()}"
+    implementation "org.hibernate.validator:hibernate-validator:${libs.versions.hibernateValidator.get()}"
     implementation "org.springframework:spring-webmvc:${libs.versions.spring.get()}"
 }

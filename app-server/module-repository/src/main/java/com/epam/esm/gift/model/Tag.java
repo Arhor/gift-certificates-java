@@ -47,13 +47,14 @@ public class Tag implements Entity<Long> {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (!(o instanceof Tag tag)) {
+        if (!(obj instanceof Tag)) {
             return false;
         }
+        var tag = (Tag) obj;
         return Objects.equals(id, tag.id)
             && Objects.equals(name, tag.name);
     }

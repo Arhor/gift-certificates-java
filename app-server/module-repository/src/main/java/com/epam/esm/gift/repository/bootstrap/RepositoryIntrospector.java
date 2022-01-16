@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
@@ -33,7 +34,7 @@ public class RepositoryIntrospector {
 
         var columnProperties = Arrays.stream(entityClass.getDeclaredFields())
             .filter(field -> field.isAnnotationPresent(Column.class))
-            .toList();
+            .collect(Collectors.toList());
 
         var idColumn = columnProperties.stream()
             .filter(field -> field.isAnnotationPresent(Id.class))
@@ -44,7 +45,7 @@ public class RepositoryIntrospector {
         var restColumns = columnProperties.stream()
             .filter(field -> !field.isAnnotationPresent(Id.class))
             .map(this::introspectColumnProperty)
-            .toList();
+            .collect(Collectors.toList());
 
         return new EntityModel(tableName, idColumn, restColumns);
     }
@@ -69,8 +70,9 @@ public class RepositoryIntrospector {
     private <T extends AbstractRepository<?, ?>> Class<?> determineEntityClass(final Class<T> repositoryClass) {
 
         if (AbstractRepository.class.equals(repositoryClass.getSuperclass())
-            && repositoryClass.getGenericSuperclass() instanceof ParameterizedType parameterizedType) {
+            && repositoryClass.getGenericSuperclass() instanceof ParameterizedType) {
 
+            var parameterizedType = (ParameterizedType) repositoryClass.getGenericSuperclass();
             var typeArguments = parameterizedType.getActualTypeArguments();
 
             if (typeArguments.length > 0) {

@@ -4,7 +4,11 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 
-public record ApiError(String message, ErrorCode code, LocalDateTime timestamp) {
+public class ApiError {
+
+    private final String message;
+    private final ErrorCode code;
+    private final LocalDateTime timestamp;
 
     public ApiError(final String message) {
         this(
@@ -20,5 +24,23 @@ public record ApiError(String message, ErrorCode code, LocalDateTime timestamp) 
             code,
             LocalDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.MILLIS)
         );
+    }
+
+    public ApiError(final String message, final ErrorCode code, final LocalDateTime timestamp) {
+        this.message = message;
+        this.code = code;
+        this.timestamp = timestamp;
+    }
+
+    public String message() {
+        return message;
+    }
+
+    public ErrorCode code() {
+        return code;
+    }
+
+    public LocalDateTime timestamp() {
+        return timestamp;
     }
 }
