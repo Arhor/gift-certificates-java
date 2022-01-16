@@ -1,6 +1,6 @@
 services:
   gift-certificates-db:
-    image: postgres
+    image: postgres:12
     volumes:
       - db-data:/var/lib/postgresql/data
     ports:

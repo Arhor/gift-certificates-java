@@ -88,6 +88,38 @@ public class CertificateDTO {
         return tags;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public LocalDateTime getDateTimeCreated() {
+        return dateTimeCreated;
+    }
+
+    public LocalDateTime getDateTimeUpdated() {
+        return dateTimeUpdated;
+    }
+
+    public List<TagDTO> getTags() {
+        return tags;
+    }
+
     public static Builder builder() {
         return new Builder();
     }

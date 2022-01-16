@@ -29,6 +29,14 @@ public class TagDTO {
         return name;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     public static Builder builder() {
         return new Builder();
     }
