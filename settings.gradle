@@ -26,4 +26,22 @@ dependencyResolutionManagement {
             }
         }
     }
+
+    alias 'assertj-core'          to 'org.assertj', 'assertj-core'               versionRef 'assertJCore'
+    alias 'junit-jupiter-params'  to 'org.junit.jupiter', 'junit-jupiter-params' versionRef 'junitJupiter'
+    alias 'junit-jupiter-api'     to 'org.junit.jupiter', 'junit-jupiter-api'    versionRef 'junitJupiter'
+    alias 'mockito-core'          to 'org.mockito', 'mockito-core'               versionRef 'mockitoCore'
+    alias 'mockito-junit-jupiter' to 'org.mockito', 'mockito-junit-jupiter'      versionRef 'mockitoCore' 
+    alias 'spring-test'           to 'org.springframework', 'spring-test'        versionRef 'spring'
+
+    bundle('test-base', [
+            'assertj-core',
+            'junit-jupiter-params',
+            'junit-jupiter-api',
+            'mockito-core', 
+            'mockito-junit-jupiter',
+            'spring-test'
+    ])
 }
+
+
