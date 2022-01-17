@@ -22,12 +22,7 @@ dependencies {
 
     runtimeOnly "org.postgresql:postgresql:${libs.versions.postgresql.get()}"
 
-    testImplementation "org.assertj:assertj-core:${libs.versions.assertJCore.get()}"
-    testImplementation "org.junit.jupiter:junit-jupiter-params:${libs.versions.junitJupiter.get()}"
-    testImplementation "org.junit.jupiter:junit-jupiter-api:${libs.versions.junitJupiter.get()}"
-    testImplementation "org.mockito:mockito-core:${libs.versions.mockitoCore.get()}"
-    testImplementation "org.mockito:mockito-junit-jupiter:${libs.versions.mockitoCore.get()}"
-    testImplementation "org.springframework:spring-test:${libs.versions.spring.get()}"
+    testImplementation libs.bundles.test.base
     testImplementation "org.testcontainers:junit-jupiter:${libs.versions.testcontainers.get()}"
     testImplementation "org.testcontainers:postgresql:${libs.versions.testcontainers.get()}"
 
