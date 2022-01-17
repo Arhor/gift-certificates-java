@@ -20,12 +20,7 @@ dependencies {
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${libs.versions.jackson.get()}"
     implementation "org.springframework:spring-webmvc:${libs.versions.spring.get()}"
 
-    testImplementation "org.assertj:assertj-core:${libs.versions.assertJCore.get()}"
-    testImplementation "org.junit.jupiter:junit-jupiter-params:${libs.versions.junitJupiter.get()}"
-    testImplementation "org.junit.jupiter:junit-jupiter-api:${libs.versions.junitJupiter.get()}"
-    testImplementation "org.mockito:mockito-core:${libs.versions.mockitoCore.get()}"
-    testImplementation "org.mockito:mockito-junit-jupiter:${libs.versions.mockitoCore.get()}"
-    testImplementation "org.springframework:spring-test:${libs.versions.spring.get()}"
+    testImplementation libs.bundles.test.base
 
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${libs.versions.junitJupiter.get()}"
 }
