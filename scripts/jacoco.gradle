@@ -4,8 +4,7 @@ jacoco {
     toolVersion = libs.versions.jacoco.get()
 }
 
-def filesToExcludeFromJacocoReport =
-    project.findProperty('jacocoExclusions') ?: []
+def filesToExcludeFromJacocoReport = project.findProperty('jacocoExclusions') ?: []
 
 jacocoTestReport {
     dependsOn test
