@@ -4,6 +4,9 @@ jacoco {
     toolVersion = libs.versions.jacoco.get()
 }
 
+def filesToExcludeFromJacocoReport =
+    project.findProperty('jacocoExclusions') ?: []
+
 jacocoTestReport {
     dependsOn test
 
@@ -16,7 +19,7 @@ jacocoTestReport {
     afterEvaluate {
         classDirectories.setFrom(
                 files(classDirectories.files.collect {
-                    fileTree(dir: it, exclude: jacocoExclusions)
+                    fileTree(dir: it, exclude: filesToExcludeFromJacocoReport)
                 })
         )
     }
@@ -34,7 +37,7 @@ jacocoTestCoverageVerification {
     afterEvaluate {
         classDirectories.setFrom(
                 files(classDirectories.files.collect {
-                    fileTree(dir: it, exclude: jacocoExclusions)
+                    fileTree(dir: it, exclude: filesToExcludeFromJacocoReport)
                 })
         )
     }
