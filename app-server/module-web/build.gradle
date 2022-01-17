@@ -10,7 +10,7 @@ java {
 dependencies {
     annotationProcessor "org.springframework:spring-context-indexer:${libs.versions.spring.get()}"
 
-    implementation(project(":app-server:module-service"))
+    implementation project(":app-server:module-service")
     implementation "ch.qos.logback:logback-core:${libs.versions.logback.get()}"
     implementation "ch.qos.logback:logback-classic:${libs.versions.logback.get()}"
     implementation "com.fasterxml.jackson.core:jackson-databind:${libs.versions.jackson.get()}"
