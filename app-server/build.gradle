@@ -2,7 +2,9 @@ plugins {
     id 'java'
     id 'jacoco'
     id 'war'
-    id 'org.gretty' version '3.0.5'
+    id 'org.gretty'
+    id 'org.jetbrains.kotlin.jvm'
+    id 'org.jetbrains.kotlin.plugin.spring'
 }
 
 java {
@@ -21,6 +23,7 @@ dependencies {
     implementation "org.springframework:spring-webmvc:${libs.versions.spring.get()}"
 
     testImplementation libs.bundles.test.base
+    testImplementation "com.tngtech.archunit:archunit-junit5:${libs.versions.archunit.get()}"
 
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${libs.versions.junitJupiter.get()}"
 }
@@ -32,6 +35,12 @@ ext {
             'com/epam/esm/gift/dto/**',
             'com/epam/esm/gift/mapper/**',
     ]
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
+    kotlinOptions {
+        jvmTarget = libs.versions.java.get()
+    }
 }
 
 jacoco {

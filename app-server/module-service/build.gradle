@@ -1,8 +1,10 @@
 plugins {
     id 'java-library'
+    id 'org.jetbrains.kotlin.jvm'
+    id 'org.jetbrains.kotlin.plugin.spring'
 }
 
-//apply from: "${rootDir}/scripts/jacoco.gradle"
+apply from: "${rootDir}/scripts/jacoco.gradle"
 
 java {
     sourceCompatibility = libs.versions.java.get()
@@ -28,6 +30,12 @@ dependencies {
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${libs.versions.junitJupiter.get()}"
 }
 
-tasks.withType(Test) {
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
+    kotlinOptions {
+        jvmTarget = libs.versions.java.get()
+    }
+}
+
+test {
     useJUnitPlatform()
 }

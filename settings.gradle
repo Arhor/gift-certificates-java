@@ -1,6 +1,9 @@
 pluginManagement {
     plugins {
-        id 'org.flywaydb.flyway' version settings['version.flyway']
+        id 'org.flywaydb.flyway'                version settings['version.flyway']
+        id 'org.gretty'                         version settings['version.gretty']
+        id 'org.jetbrains.kotlin.jvm'           version settings['version.kotlin']
+        id 'org.jetbrains.kotlin.plugin.spring' version settings['version.kotlin']
     }
 }
 
@@ -21,27 +24,27 @@ def dependencyVersions = properties
 dependencyResolutionManagement {
     versionCatalogs {
         libs {
-            dependencyVersions.each {
-                version it.key, it.value
-            }
+            dependencyVersions.each { version it.key, it.value }
+
+            alias 'kotlin-stdlib-jdk8'    to 'org.jetbrains.kotlin', 'kotlin-stdlib-jdk8' versionRef 'kotlin'
+            alias 'assertj-core'          to 'org.assertj', 'assertj-core'                versionRef 'assertJCore'
+            alias 'junit-jupiter-params'  to 'org.junit.jupiter', 'junit-jupiter-params'  versionRef 'junitJupiter'
+            alias 'junit-jupiter-api'     to 'org.junit.jupiter', 'junit-jupiter-api'     versionRef 'junitJupiter'
+            alias 'mockito-core'          to 'org.mockito', 'mockito-core'                versionRef 'mockitoCore'
+            alias 'mockito-junit-jupiter' to 'org.mockito', 'mockito-junit-jupiter'       versionRef 'mockitoCore'
+            alias 'spring-test'           to 'org.springframework', 'spring-test'         versionRef 'spring'
+
+            bundle  'test-base', [
+                    'kotlin-stdlib-jdk8',
+                    'assertj-core',
+                    'junit-jupiter-params',
+                    'junit-jupiter-api',
+                    'mockito-core',
+                    'mockito-junit-jupiter',
+                    'spring-test'
+            ]
         }
     }
-
-    alias 'assertj-core'          to 'org.assertj', 'assertj-core'               versionRef 'assertJCore'
-    alias 'junit-jupiter-params'  to 'org.junit.jupiter', 'junit-jupiter-params' versionRef 'junitJupiter'
-    alias 'junit-jupiter-api'     to 'org.junit.jupiter', 'junit-jupiter-api'    versionRef 'junitJupiter'
-    alias 'mockito-core'          to 'org.mockito', 'mockito-core'               versionRef 'mockitoCore'
-    alias 'mockito-junit-jupiter' to 'org.mockito', 'mockito-junit-jupiter'      versionRef 'mockitoCore' 
-    alias 'spring-test'           to 'org.springframework', 'spring-test'        versionRef 'spring'
-
-    bundle('test-base', [
-            'assertj-core',
-            'junit-jupiter-params',
-            'junit-jupiter-api',
-            'mockito-core', 
-            'mockito-junit-jupiter',
-            'spring-test'
-    ])
 }
 
 
