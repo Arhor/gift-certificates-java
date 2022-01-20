@@ -1,44 +1,43 @@
-package com.epam.esm.gift.service.impl;
+package com.epam.esm.gift.service.impl
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.Optional;
-
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import com.epam.esm.gift.error.EntityNotFoundException;
-import com.epam.esm.gift.mapper.CertificateEntityMapper;
-import com.epam.esm.gift.mapper.TagEntityMapper;
-import com.epam.esm.gift.model.Certificate;
-import com.epam.esm.gift.repository.CertificateRepository;
-import com.epam.esm.gift.repository.TagRepository;
+import com.epam.esm.gift.error.EntityNotFoundException
+import com.epam.esm.gift.mapper.CertificateEntityMapper
+import com.epam.esm.gift.mapper.TagEntityMapper
+import com.epam.esm.gift.model.Certificate
+import com.epam.esm.gift.repository.CertificateRepository
+import com.epam.esm.gift.repository.TagRepository
+import org.assertj.core.api.Assertions.assertThatExceptionOfType
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable
+import org.junit.jupiter.api.Tag
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.Mockito.anyLong
+import org.mockito.Mockito.verify
+import org.mockito.junit.jupiter.MockitoExtension
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.whenever
+import java.util.Optional
 
 @Tag("unit")
-@ExtendWith(MockitoExtension.class)
-class CertificateServiceImplTest {
+@ExtendWith(MockitoExtension::class)
+internal class CertificateServiceImplTest {
 
     @Mock
-    private CertificateRepository certificateRepository;
+    private lateinit var certificateRepository: CertificateRepository
 
     @Mock
-    private CertificateEntityMapper certificateMapper;
+    private lateinit var certificateMapper: CertificateEntityMapper
 
     @Mock
-    private TagRepository tagRepository;
+    private lateinit var tagRepository: TagRepository
 
     @Mock
-    private TagEntityMapper tagMapper;
+    private lateinit var tagMapper: TagEntityMapper
 
     @InjectMocks
-    private CertificateServiceImpl certificateService;
+    private lateinit var certificateService: CertificateServiceImpl
 
 //    @Test
 //    void should_return_an_existing_tag_represented_as_DTO() {
@@ -146,32 +145,29 @@ class CertificateServiceImplTest {
 //    }
 
     @Test
-    void should_delete_certificate_by_id() {
+    fun `should delete certificate by id`() {
         // given
-        var testId = 1L;
-        var testName = "test";
-        var certificate = Certificate.builder().id(testId).name(testName).build();
+        val testId = 1L
+        val certificate = Certificate().apply { id = testId; name = "test" }
 
-        when(certificateRepository.findById(testId)).thenReturn(Optional.of(certificate));
+        whenever(certificateRepository.findById(testId)) doReturn Optional.of(certificate)
 
         // when
-        certificateService.deleteById(testId);
+        certificateService.deleteById(testId)
 
         // then
-        verify(certificateRepository).delete(certificate);
+        verify(certificateRepository).delete(certificate)
     }
 
     @Test
-    void should_throw_EntityNotFoundException_within_delete_certificate_by_id() {
+    fun `should throw EntityNotFoundException when delete certificate by id`() {
         // given
-        var testId = 1L;
-
-        when(certificateRepository.findById(testId)).thenReturn(Optional.empty());
+        whenever(certificateRepository.findById(anyLong())) doReturn Optional.empty()
 
         // when
-        ThrowingCallable action = () -> certificateService.deleteById(testId);
+        val action = ThrowingCallable { certificateService.deleteById(1L) }
 
         // then
-        assertThatExceptionOfType(EntityNotFoundException.class).isThrownBy(action);
+        assertThatExceptionOfType(EntityNotFoundException::class.java).isThrownBy(action)
     }
 }

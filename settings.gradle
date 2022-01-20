@@ -32,6 +32,7 @@ dependencyResolutionManagement {
             alias 'junit-jupiter-api'     to 'org.junit.jupiter', 'junit-jupiter-api'     versionRef 'junitJupiter'
             alias 'mockito-core'          to 'org.mockito', 'mockito-core'                versionRef 'mockitoCore'
             alias 'mockito-junit-jupiter' to 'org.mockito', 'mockito-junit-jupiter'       versionRef 'mockitoCore'
+            alias 'mockito-kotlin'        to 'org.mockito.kotlin', 'mockito-kotlin'       versionRef 'mockitoCore'
             alias 'spring-test'           to 'org.springframework', 'spring-test'         versionRef 'spring'
 
             bundle  'test-base', [
@@ -41,6 +42,7 @@ dependencyResolutionManagement {
                     'junit-jupiter-api',
                     'mockito-core',
                     'mockito-junit-jupiter',
+                    'mockito-kotlin',
                     'spring-test'
             ]
         }
