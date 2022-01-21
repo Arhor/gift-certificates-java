@@ -16,15 +16,14 @@ include ':app-server:module-web'
 
 enableFeaturePreview 'VERSION_CATALOGS'
 
-// dependency version should be declared in 'gradle.properties' with 'version.' prefix
-def dependencyVersions = properties
-        .findAll { it.key.startsWith 'version.' }
-        .collectEntries { [it.key - 'version.', it.value] }
-
 dependencyResolutionManagement {
     versionCatalogs {
         libs {
-            dependencyVersions.each { version it.key, it.value }
+            // dependency version should be declared in 'gradle.properties' with 'version.' prefix
+            this.properties
+                .findAll { it.key.startsWith 'version.' }
+                .collectEntries { [it.key - 'version.', it.value] }
+                .each { version it.key, it.value }
 
             alias 'kotlin-stdlib-jdk8'    to 'org.jetbrains.kotlin', 'kotlin-stdlib-jdk8' versionRef 'kotlin'
             alias 'assertj-core'          to 'org.assertj', 'assertj-core'                versionRef 'assertJCore'
