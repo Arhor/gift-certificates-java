@@ -15,8 +15,8 @@ java {
 dependencies {
     annotationProcessor "org.springframework:spring-context-indexer:${libs.versions.spring.get()}"
 
-    implementation("ch.qos.logback:logback-core:${libs.versions.logback.get()}")
-    implementation("ch.qos.logback:logback-classic:${libs.versions.logback.get()}")
+    implementation "ch.qos.logback:logback-core:${libs.versions.logback.get()}"
+    implementation "ch.qos.logback:logback-classic:${libs.versions.logback.get()}"
     implementation "org.flywaydb:flyway-core:${libs.versions.flyway.get()}"
     implementation "com.zaxxer:HikariCP:${libs.versions.hikariCP.get()}"
     implementation "org.springframework:spring-context:${libs.versions.spring.get()}"
