@@ -1,11 +1,12 @@
-package com.epam.esm.gift.error;
+package com.epam.esm.gift.localization.error;
 
-public abstract class PropertyConditionException extends ServiceLayerException {
+public abstract class PropertyConditionException extends LocalizableException {
 
     private final String name;
     private final String condition;
 
-    protected PropertyConditionException(final String name, final String condition) {
+    protected PropertyConditionException(final ErrorLabel label, final String name, final String condition) {
+        super(label);
         this.name = name;
         this.condition = condition;
     }

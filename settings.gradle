@@ -10,6 +10,7 @@ pluginManagement {
 rootProject.name = 'gift-certificates-java'
 
 include ':app-server'
+include ':app-server:module-localization'
 include ':app-server:module-repository'
 include ':app-server:module-service'
 include ':app-server:module-web'

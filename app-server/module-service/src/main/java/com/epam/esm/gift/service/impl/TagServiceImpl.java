@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.epam.esm.gift.dto.TagDto;
-import com.epam.esm.gift.error.EntityDuplicateException;
-import com.epam.esm.gift.error.EntityNotFoundException;
+import com.epam.esm.gift.localization.error.EntityDuplicateException;
+import com.epam.esm.gift.localization.error.EntityNotFoundException;
 import com.epam.esm.gift.mapper.EntityMapper;
 import com.epam.esm.gift.model.Tag;
 import com.epam.esm.gift.repository.TagRepository;

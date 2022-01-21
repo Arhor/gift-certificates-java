@@ -1,6 +1,6 @@
 package com.epam.esm.gift.service.impl
 
-import com.epam.esm.gift.error.EntityNotFoundException
+import com.epam.esm.gift.localization.error.EntityNotFoundException
 import com.epam.esm.gift.mapper.CertificateEntityMapper
 import com.epam.esm.gift.mapper.TagEntityMapper
 import com.epam.esm.gift.model.Certificate

@@ -1,10 +1,13 @@
 package com.epam.esm.gift.web.error;
 
+import static com.epam.esm.gift.localization.config.MessageSourceConfig.ERROR_MESSAGES_BEAN;
+
 import java.lang.invoke.MethodHandles;
 import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,22 +15,19 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.epam.esm.gift.error.EntityDuplicateException;
-import com.epam.esm.gift.error.EntityNotFoundException;
-import com.epam.esm.gift.error.PropertyConditionException;
+import com.epam.esm.gift.localization.error.EntityDuplicateException;
+import com.epam.esm.gift.localization.error.EntityNotFoundException;
+import com.epam.esm.gift.localization.error.ErrorLabel;
+import com.epam.esm.gift.localization.error.PropertyConditionException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    private static final String ERROR_UNCATEGORIZED = "error.uncategorized";
-    private static final String ERROR_REST_RESOURCE_NOT_FOUND = "error.rest.resource.not.found";
-    private static final String ERROR_REST_RESOURCE_DUPLICATE = "error.rest.resource.duplicate";
-
     private final MessageSource messages;
 
-    public GlobalExceptionHandler(final MessageSource messages) {
+    public GlobalExceptionHandler(@Qualifier(ERROR_MESSAGES_BEAN) final MessageSource messages) {
         this.messages = messages;
     }
 
@@ -37,7 +37,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         log.error(ex.getMessage(), ex);
         return new ApiError(
             getMessage(
-                ERROR_UNCATEGORIZED,
+                ErrorLabel.ERROR_UNCATEGORIZED.getCode(),
                 locale
             )
         );
@@ -49,7 +49,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         log.error("Entity by certain condition is not found", ex);
         return new ApiError(
             messages.getMessage(
-                ERROR_REST_RESOURCE_NOT_FOUND,
+                ex.getLabel().getCode(),
                 convertToArgs(ex),
                 locale
             ),
@@ -63,7 +63,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         log.error("Entity by certain condition already exists", ex);
         return new ApiError(
             messages.getMessage(
-                ERROR_REST_RESOURCE_DUPLICATE,
+                ex.getLabel().getCode(),
                 convertToArgs(ex),
                 locale
             ),
