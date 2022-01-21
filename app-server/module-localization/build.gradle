@@ -1,34 +1,5 @@
-plugins {
-    id 'java-library'
-    id 'org.jetbrains.kotlin.jvm'
-    id 'org.jetbrains.kotlin.plugin.spring'
-}
-
-apply from: "${rootDir}/scripts/jacoco.gradle"
-
-java {
-    sourceCompatibility = libs.versions.java.get()
-    targetCompatibility = libs.versions.java.get()
-}
-
 dependencies {
     annotationProcessor "org.springframework:spring-context-indexer:${libs.versions.spring.get()}"
 
-    implementation "ch.qos.logback:logback-core:${libs.versions.logback.get()}"
-    implementation "ch.qos.logback:logback-classic:${libs.versions.logback.get()}"
     implementation "org.springframework:spring-context:${libs.versions.spring.get()}"
-
-    testImplementation libs.bundles.test.base
-
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${libs.versions.junitJupiter.get()}"
-}
-
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
-    kotlinOptions {
-        jvmTarget = libs.versions.java.get()
-    }
-}
-
-test {
-    useJUnitPlatform()
 }

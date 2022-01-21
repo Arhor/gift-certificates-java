@@ -1,0 +1,17 @@
+plugins {
+    id 'war'
+    id 'org.gretty'
+}
+
+dependencies {
+    annotationProcessor "org.springframework:spring-context-indexer:${libs.versions.spring.get()}"
+
+    compileOnly "javax.servlet:javax.servlet-api:${libs.versions.servlet.get()}"
+
+    implementation project(':app-server:module-web')
+    implementation "com.fasterxml.jackson.core:jackson-databind:${libs.versions.jackson.get()}"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${libs.versions.jackson.get()}"
+    implementation "org.springframework:spring-webmvc:${libs.versions.spring.get()}"
+
+    testImplementation "com.tngtech.archunit:archunit-junit5:${libs.versions.archunit.get()}"
+}

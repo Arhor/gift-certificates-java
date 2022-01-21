@@ -1,19 +1,10 @@
+wrapper {
+    gradleVersion = libs.versions.gradle.get()
+}
+
 subprojects {
     repositories {
         mavenLocal()
         mavenCentral()
-    }
-
-    tasks.withType(JavaCompile) {
-        options.compilerArgs.addAll([
-                '-Xlint:unchecked',
-                '-Xlint:deprecation',
-        ])
-    }
-}
-
-tasks {
-    wrapper {
-        gradleVersion = libs.versions.gradle.get()
     }
 }

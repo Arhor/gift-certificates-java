@@ -1,62 +1,95 @@
 plugins {
-    id 'java'
+    id 'java-base'
     id 'jacoco'
-    id 'war'
-    id 'org.gretty'
-    id 'org.jetbrains.kotlin.jvm'
-    id 'org.jetbrains.kotlin.plugin.spring'
-}
-
-java {
-    sourceCompatibility = libs.versions.java.get()
-    targetCompatibility = libs.versions.java.get()
-}
-
-dependencies {
-    annotationProcessor "org.springframework:spring-context-indexer:${libs.versions.spring.get()}"
-
-    compileOnly "javax.servlet:javax.servlet-api:${libs.versions.servlet.get()}"
-
-    implementation project(':app-server:module-web')
-    implementation "com.fasterxml.jackson.core:jackson-databind:${libs.versions.jackson.get()}"
-    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${libs.versions.jackson.get()}"
-    implementation "org.springframework:spring-webmvc:${libs.versions.spring.get()}"
-
-    testImplementation libs.bundles.test.base
-    testImplementation "com.tngtech.archunit:archunit-junit5:${libs.versions.archunit.get()}"
-
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${libs.versions.junitJupiter.get()}"
+    id 'org.jetbrains.kotlin.jvm'           apply false
+    id 'org.jetbrains.kotlin.plugin.spring' apply false
 }
 
 ext {
     jacocoExclusions = [
-            'com/epam/esm/gift/config/**',
-            'com/epam/esm/gift/model/**',
-            'com/epam/esm/gift/dto/**',
-            'com/epam/esm/gift/mapper/**',
+            'com/epam/esm/gift/**/config/*',
+            'com/epam/esm/gift/**/mapper/*',
+            'com/epam/esm/gift/**/error/*',
+            'com/epam/esm/gift/**/model/*',
+            'com/epam/esm/gift/**/dto/*',
     ]
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
-    kotlinOptions {
-        jvmTarget = libs.versions.java.get()
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'jacoco'
+    apply plugin: 'org.jetbrains.kotlin.jvm'
+    apply plugin: 'org.jetbrains.kotlin.plugin.spring'
+
+    def javaVersion = libs.versions.java.get()
+
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+
+    dependencies {
+        implementation "ch.qos.logback:logback-core:${libs.versions.logback.get()}"
+        implementation "ch.qos.logback:logback-classic:${libs.versions.logback.get()}"
+
+        testImplementation libs.bundles.test.base
+        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${libs.versions.junitJupiter.get()}"
+    }
+
+    tasks.withType(JavaCompile) {
+        options.compilerArgs.addAll([
+                '-Xlint:unchecked',
+                '-Xlint:deprecation',
+        ])
+    }
+
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
+        kotlinOptions {
+            jvmTarget = javaVersion
+        }
+    }
+
+    test {
+        useJUnitPlatform()
+        finalizedBy jacocoTestReport
+    }
+
+    check {
+        dependsOn jacocoTestReport, jacocoTestCoverageVerification
+    }
+
+    jacoco {
+        toolVersion = libs.versions.jacoco.get()
+    }
+
+    jacocoTestReport {
+        dependsOn test
+
+        reports {
+            xml.required.set(false)
+            csv.required.set(false)
+            html.required.set(true)
+        }
+
+        classDirectories.setFrom files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: jacocoExclusions)
+        })
+    }
+
+    jacocoTestCoverageVerification {
+        violationRules {
+            rule {
+                limit {
+                    minimum = 0.80
+                }
+            }
+        }
+
+        classDirectories.setFrom files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: jacocoExclusions)
+        })
     }
 }
 
-jacoco {
-    toolVersion = libs.versions.jacoco.get()
-}
-
-jacocoTestReport {
-    dependsOn test
-}
-
-test {
-    useJUnitPlatform()
-    finalizedBy jacocoTestReport
-}
-
-task jacocoTestReportRoot(type: JacocoReport, group: 'verification', dependsOn: jacocoTestReport) {
+task jacocoTestReportRoot(type: JacocoReport, group: 'verification') {
     description = 'Generates aggregate report from all subprojects.'
 
     subprojects.each {
@@ -69,31 +102,26 @@ task jacocoTestReportRoot(type: JacocoReport, group: 'verification', dependsOn: 
         }
     }
 
-    classDirectories.setFrom(
-            files([fileTree(
-                    dir: "${project.projectDir}",
-                    includes: ['**/build/classes/java/**/*.class'],
-                    exclude: jacocoExclusions
-            )])
-    )
-    sourceDirectories.setFrom(
-            files([fileTree(
-                    dir: "${project.projectDir}",
-                    includes: ['**/src/main/java/**/*.*']
-            )])
-    )
-    executionData.setFrom(
-            files([fileTree(
-                    dir: "${project.projectDir}",
-                    includes: ['**/build/jacoco/*.exec']
-            )])
-    )
+    classDirectories.setFrom files([fileTree(
+            dir: "${project.projectDir}",
+            includes: ['**/build/classes/java/**/*.class'],
+            exclude: jacocoExclusions
+    )])
+
+    sourceDirectories.setFrom files([fileTree(
+            dir: "${project.projectDir}",
+            includes: ['**/src/main/java/**/*.*']
+    )])
+
+    executionData.setFrom files([fileTree(
+            dir: "${project.projectDir}",
+            includes: ['**/build/jacoco/*.exec']
+    )])
 
     reports {
         xml.required.set(false)
         csv.required.set(false)
-
         html.required.set(true)
-        html.destination file("${project.projectDir}/build/reports/jacoco/root")
+        html.outputLocation.set(file("${project.projectDir}/build/reports/jacoco/root"))
     }
 }

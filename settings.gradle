@@ -14,6 +14,7 @@ include ':app-server:module-localization'
 include ':app-server:module-repository'
 include ':app-server:module-service'
 include ':app-server:module-web'
+include ':app-server:module-main'
 
 enableFeaturePreview 'VERSION_CATALOGS'
 
