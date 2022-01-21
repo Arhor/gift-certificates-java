@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -28,13 +29,9 @@ public class CertificateController {
     @SuppressWarnings("unused")
     private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    {
-        log.info("INITIALIZED");
-    }
-
     private final BaseService<CertificateDto, Long> service;
 
-    public CertificateController(BaseService<CertificateDto, Long> service) {
+    public CertificateController(final BaseService<CertificateDto, Long> service) {
         this.service = service;
     }
 
@@ -50,7 +47,7 @@ public class CertificateController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<CertificateDto> createCertificate(@RequestBody final CertificateDto certificate) {
+    public ResponseEntity<CertificateDto> createCertificate(@Validated @RequestBody final CertificateDto certificate) {
         var createdCertificate = service.create(certificate);
 
         var location =
@@ -62,7 +59,7 @@ public class CertificateController {
     }
 
     @PatchMapping
-    public CertificateDto updateCertificate(@RequestBody final CertificateDto certificate) {
+    public CertificateDto updateCertificate(@Validated @RequestBody final CertificateDto certificate) {
         return service.update(certificate);
     }
 
