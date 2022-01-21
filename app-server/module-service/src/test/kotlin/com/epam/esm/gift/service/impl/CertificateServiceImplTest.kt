@@ -1,11 +1,13 @@
 package com.epam.esm.gift.service.impl
 
+import com.epam.esm.gift.dto.CertificateDto
 import com.epam.esm.gift.localization.error.EntityNotFoundException
 import com.epam.esm.gift.mapper.CertificateEntityMapper
 import com.epam.esm.gift.mapper.TagEntityMapper
 import com.epam.esm.gift.model.Certificate
 import com.epam.esm.gift.repository.CertificateRepository
 import com.epam.esm.gift.repository.TagRepository
+import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatExceptionOfType
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable
 import org.junit.jupiter.api.Tag
@@ -24,125 +26,108 @@ import java.util.Optional
 @ExtendWith(MockitoExtension::class)
 internal class CertificateServiceImplTest {
 
-    @Mock
-    private lateinit var certificateRepository: CertificateRepository
-
-    @Mock
-    private lateinit var certificateMapper: CertificateEntityMapper
-
-    @Mock
-    private lateinit var tagRepository: TagRepository
-
-    @Mock
-    private lateinit var tagMapper: TagEntityMapper
+    @Mock private lateinit var certificateRepository: CertificateRepository
+    @Mock private lateinit var certificateMapper: CertificateEntityMapper
+    @Mock private lateinit var tagRepository: TagRepository
+    @Mock private lateinit var tagMapper: TagEntityMapper
 
     @InjectMocks
     private lateinit var certificateService: CertificateServiceImpl
 
-//    @Test
-//    void should_return_an_existing_tag_represented_as_DTO() {
-//        // given
-//        var id = 1L;
-//        var name = "test";
-//        var tag = Tag.builder().id(id).name(name).build();
-//        var tagDTO = new TagDto(id, name);
-//
-//        when(certificateRepository.findById(anyLong())).thenReturn(Optional.of(tag));
-//        when(certificateConverter.mapEntityToDto(tag)).thenReturn(tagDTO);
-//
-//        // when
-//        var result = tagService.findOne(id);
-//
-//        // then
-//        assertThat(result)
-//            .isNotNull()
-//            .isEqualTo(tagDTO);
-//    }
-//
-//    @Test
-//    void should_throw_EntityNotFoundException_within_tag_lookup_by_id() {
-//        // given
-//        var id = 1L;
-//
-//        when(tagRepository.findById(anyLong())).thenReturn(Optional.empty());
-//
-//        // when
-//        ThrowingCallable action = () -> tagService.findOne(id);
-//
-//        // then
-//        assertThatExceptionOfType(EntityNotFoundException.class).isThrownBy(action);
-//    }
-//
-//    @Test
-//    void should_return_existing_tags_represented_as_DTOs() {
-//        // given
-//        var id = 1L;
-//        var name = "test";
-//        var tag = Tag.builder().id(id).name(name).build();
-//        var tagDTO = new TagDto(id, name);
-//
-//        when(tagRepository.findAll()).thenReturn(List.of(tag));
-//        when(tagConverter.mapEntityToDto(tag)).thenReturn(tagDTO);
-//
-//        // when
-//        var result = tagService.findAll();
-//
-//        // then
-//        assertThat(result)
-//            .isNotNull()
-//            .hasSize(1)
-//            .contains(tagDTO);
-//    }
-//
-//    @Test
-//    void should_create_tag_entity() {
-//        // given
-//        var testId = 1L;
-//        var testName = "test";
-//        var tagDto = new TagDto(null, testName);
-//        var tagEntity = new Tag(null, testName);
-//        var expectedTagEntity = tagEntity.copy().id(testId).build();
-//        var expectedTagDto = tagDto.copy().id(testId).build();
-//
-//        when(tagConverter.mapDtoToEntity(tagDto)).thenReturn(tagEntity);
-//        when(tagRepository.findTagByName(testName)).thenReturn(Optional.empty());
-//        when(tagRepository.create(tagEntity)).thenReturn(expectedTagEntity);
-//        when(tagConverter.mapEntityToDto(expectedTagEntity)).thenReturn(expectedTagDto);
-//
-//
-//        // when
-//        var createdTag = tagService.create(tagDto);
-//
-//        // then
-//        assertThat(createdTag)
-//            .isNotNull()
-//            .isEqualTo(expectedTagDto);
-//    }
-//
-//    @Test
-//    void should_update_tag_entity() {
-//        // given
-//        var testId = 1L;
-//        var testName = "test";
-//        var certificateDto = CertificateDto.builder().name(testName).build();
-//        var certificate = Certificate.builder().name(testName).build();
-//        var expectedCertificate = certificate.copy().id(testId).build();
-//        var expectedCertificateDto = certificateDto.copy().id(testId).build();
-//
-//        when(certificateMapper.mapDtoToEntity(certificateDto)).thenReturn(certificate);
-//        when(tagRepository.findTagByName(testName)).thenReturn(Optional.empty());
-//        when(tagRepository.update(certificate)).thenReturn(expectedCertificate);
-//        when(tagConverter.mapEntityToDto(expectedCertificate)).thenReturn(expectedCertificateDto);
-//
-//
-//        // when
-//        var updatedCertificate = certificateService.update(certificateDto);
-//
-//        // then
-//        assertThat(updatedCertificate)
-//            .isNotNull()
-//            .isEqualTo(expectedCertificateDto);
-//    }
+    @Test
+    fun `should return an existing certificate represented as DTO`() {
+        // given
+        val testId = 1L
+        val testName = "test"
+        val tag = Certificate().apply { id = testId; name = testName }
+        val tagDTO = CertificateDto.builder().id(testId).name(testName).build()
+
+        whenever(certificateRepository.findById(anyLong())) doReturn Optional.of(tag)
+        whenever(certificateMapper.mapEntityToDto(tag)) doReturn tagDTO
+
+        // when
+        val result = certificateService.findOne(testId)
+
+        // then
+        assertThat(result)
+            .isNotNull
+            .isEqualTo(tagDTO)
+    }
+
+    @Test
+    fun `should throw EntityNotFoundException within certificate lookup by id`() {
+        // given
+        whenever(certificateRepository.findById(anyLong())) doReturn Optional.empty()
+
+        // when
+        val action = ThrowingCallable { certificateService.findOne(1L) }
+
+        // then
+        assertThatExceptionOfType(EntityNotFoundException::class.java).isThrownBy(action)
+    }
+
+    @Test
+    fun `should return existing certificates represented as DTOs`() {
+        // given
+        val id = 1L
+        val name = "test"
+        val tag = Certificate.builder().id(id).name(name).build()
+        val tagDTO = CertificateDto.builder().id(id).name(name).build()
+
+        whenever(certificateRepository.findAll()) doReturn listOf(tag)
+        whenever(certificateMapper.mapEntityToDto(tag)) doReturn tagDTO
+
+        // when
+        val result = certificateService.findAll()
+
+        // then
+        assertThat(result)
+            .isNotNull
+            .hasSize(1)
+            .contains(tagDTO)
+    }
+
+    @Test
+    fun `should create certificate entity`() {
+        // given
+        val testId = 1L
+        val testName = "test"
+        val certificateDto = CertificateDto.builder().id(testId).name(testName).build()
+        val certificate = Certificate.builder().id(testId).name(testName).build()
+
+        whenever(certificateMapper.mapDtoToEntity(certificateDto)).thenReturn(certificate)
+        whenever(certificateMapper.mapEntityToDto(certificate)).thenReturn(certificateDto)
+        whenever(certificateRepository.create(certificate)).thenReturn(certificate)
+
+        // when
+        val updatedCertificate = certificateService.create(certificateDto)
+
+        // then
+        assertThat(updatedCertificate)
+            .isNotNull
+            .isEqualTo(certificateDto)
+    }
+
+    @Test
+    fun `should update certificate entity`() {
+        // given
+        val testId = 1L
+        val testName = "test"
+        val certificateDto = CertificateDto.builder().id(testId).name(testName).build()
+        val certificate = Certificate.builder().id(testId).name(testName).build()
+
+        whenever(certificateMapper.mapDtoToEntity(certificateDto)).thenReturn(certificate)
+        whenever(certificateMapper.mapEntityToDto(certificate)).thenReturn(certificateDto)
+        whenever(certificateRepository.update(certificate)).thenReturn(certificate)
+
+        // when
+        val updatedCertificate = certificateService.update(certificateDto)
+
+        // then
+        assertThat(updatedCertificate)
+            .isNotNull
+            .isEqualTo(certificateDto)
+    }
 
     @Test
     fun `should delete certificate by id`() {

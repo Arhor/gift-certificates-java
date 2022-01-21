@@ -24,11 +24,8 @@ import java.util.Optional
 @ExtendWith(MockitoExtension::class)
 internal class TagServiceImplTest {
 
-    @Mock
-    private lateinit var tagRepository: TagRepository
-
-    @Mock
-    private lateinit var tagConverter: TagEntityMapper
+    @Mock private lateinit var tagRepository: TagRepository
+    @Mock private lateinit var tagConverter: TagEntityMapper
 
     @InjectMocks
     private lateinit var tagService: TagServiceImpl

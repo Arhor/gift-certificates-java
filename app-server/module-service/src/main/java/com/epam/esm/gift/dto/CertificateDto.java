@@ -55,7 +55,7 @@ public class CertificateDto {
         this.duration = duration;
         this.dateTimeCreated = dateTimeCreated;
         this.dateTimeUpdated = dateTimeUpdated;
-        this.tags = tags;
+        this.tags = ListUtils.emptyIfNull(tags);
     }
 
     public Long id() {
@@ -185,7 +185,7 @@ public class CertificateDto {
             this.duration = certificate.duration;
             this.dateTimeCreated = certificate.dateTimeCreated;
             this.dateTimeUpdated = certificate.dateTimeUpdated;
-            this.tags = ListUtils.emptyIfNull(certificate.tags);
+            this.tags = certificate.tags;
         }
 
         public Builder id(final Long id) {
@@ -224,7 +224,7 @@ public class CertificateDto {
         }
 
         public Builder tags(final List<TagDto> tags) {
-            this.tags = ListUtils.emptyIfNull(tags);
+            this.tags = tags;
             return this;
         }
 

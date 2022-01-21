@@ -2,7 +2,6 @@ package com.epam.esm.gift.repository.bootstrap;
 
 import static java.util.stream.Collectors.joining;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.StringJoiner;
 import java.util.function.Function;
