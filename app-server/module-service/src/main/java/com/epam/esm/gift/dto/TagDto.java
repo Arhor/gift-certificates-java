@@ -1,25 +1,24 @@
 package com.epam.esm.gift.dto;
 
-import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
-
 import java.util.Objects;
 import java.util.StringJoiner;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
+@JsonDeserialize(builder = TagDto.Builder.class)
 public class TagDto {
 
-    @JsonProperty(access = READ_ONLY)
     private final Long id;
 
     @NotBlank
     @Size(min = 3, max = 30)
     private final String name;
 
-    public TagDto(Long id, String name) {
+    public TagDto(final Long id, final String name) {
         this.id = id;
         this.name = name;
     }
@@ -70,6 +69,7 @@ public class TagDto {
             .toString();
     }
 
+    @JsonPOJOBuilder(withPrefix = "")
     public static class Builder {
         private Long id;
         private String name;

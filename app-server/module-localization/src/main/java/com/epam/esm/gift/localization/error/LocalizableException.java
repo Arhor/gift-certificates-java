@@ -11,4 +11,6 @@ public abstract class LocalizableException extends RuntimeException {
     public ErrorLabel getLabel() {
         return label;
     }
+
+    public abstract Object[] getParams();
 }

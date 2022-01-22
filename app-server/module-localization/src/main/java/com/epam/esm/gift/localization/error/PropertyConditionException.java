@@ -18,4 +18,9 @@ public abstract class PropertyConditionException extends LocalizableException {
     public String getCondition() {
         return condition;
     }
+
+    @Override
+    public Object[] getParams() {
+        return new Object[]{name, condition};
+    }
 }

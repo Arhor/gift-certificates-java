@@ -1,0 +1,49 @@
+{
+    "info": {
+        "name": "Gift Certificates API",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+        {
+            "key": "apiBaseUrl",
+            "value": "http://localhost:8080"
+        }
+    ],
+    "item": [
+        {
+            "name": "Tags",
+            "item": [
+                {
+                    "name": "Get all tags",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{apiBaseUrl}}/tags"
+                    }
+                },
+                {
+                    "name": "Get tag by id",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{apiBaseUrl}}/tags"
+                    }
+                },
+                {
+                    "name": "Create new tag",
+                    "request": {
+                        "method": "POST",
+                        "url": "{{apiBaseUrl}}/tags",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\t\"name\": \"creativity\"\r}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

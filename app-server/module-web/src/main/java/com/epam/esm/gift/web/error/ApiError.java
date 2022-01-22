@@ -1,10 +1,19 @@
 package com.epam.esm.gift.web.error;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 
-public class ApiError {
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@JsonPropertyOrder({
+    "code",
+    "message",
+    "timestamp",
+})
+public final class ApiError implements Serializable {
 
     private final String message;
     private final ErrorCode code;
@@ -32,15 +41,18 @@ public class ApiError {
         this.timestamp = timestamp;
     }
 
-    public String message() {
+    @JsonGetter
+    public String getMessage() {
         return message;
     }
 
-    public ErrorCode code() {
+    @JsonGetter
+    public ErrorCode getCode() {
         return code;
     }
 
-    public LocalDateTime timestamp() {
+    @JsonGetter
+    public LocalDateTime getTimestamp() {
         return timestamp;
     }
 }

@@ -15,3 +15,9 @@ dependencies {
 
     testImplementation "com.tngtech.archunit:archunit-junit5:${libs.versions.archunit.get()}"
 }
+
+gretty {
+    httpPort = 8080
+    contextPath = '/'
+    servletContainer = 'tomcat9'
+}
