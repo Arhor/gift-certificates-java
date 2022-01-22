@@ -8,6 +8,7 @@ public enum ErrorLabel implements Label {
     ERROR_SERVER_HANDLER_NOT_FOUND ("error.server.handler.not.found"),
     ERROR_ENTITY_NOT_FOUND         ("error.entity.not.found"),
     ERROR_ENTITY_DUPLICATE         ("error.entity.duplicate"),
+    ERROR_VALUE_TYPE_MISMATCH      ("error.value.type.mismatch"),
 
     ;
 

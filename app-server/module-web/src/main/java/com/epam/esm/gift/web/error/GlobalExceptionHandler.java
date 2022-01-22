@@ -61,7 +61,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ApiError handleMethodArgumentTypeMismatchException(final MethodArgumentTypeMismatchException ex, final Locale locale) {
         return new ApiError(
-            ex.getMessage(),
+            messages.getMessage(
+                ErrorLabel.ERROR_VALUE_TYPE_MISMATCH.getCode(),
+                new Object[]{ex.getName(), ex.getValue(), ex.getRequiredType()},
+                locale
+            ),
             ErrorCode.METHOD_ARG_TYPE_MISMATCH
         );
     }
