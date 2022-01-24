@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
 public class ErrorCodeSerializer extends StdSerializer<ErrorCode> {
 
-    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private static final int  NUM_CODE_MAX_LENGTH = 5;
     private static final char NUM_CODE_PAD_SYMBOL = '0';
@@ -26,17 +26,17 @@ public class ErrorCodeSerializer extends StdSerializer<ErrorCode> {
     public void serialize(final ErrorCode value, final JsonGenerator generator, final SerializerProvider provider)
         throws IOException {
 
-        var type = value.type.name();
+        var type = value.getType().name();
         var code = convertCodeToPaddedString(value);
 
         generator.writeString(type + "-" + code);
     }
 
     private String convertCodeToPaddedString(final ErrorCode value) {
-        var numberAsString = String.valueOf(value.code);
+        var numberAsString = String.valueOf(value.getCode());
 
         if (numberAsString.length() > NUM_CODE_MAX_LENGTH) {
-            logger.debug("ErrorCode {} numeric value is too large", value);
+            log.debug("ErrorCode {} numeric value is too large", value);
         }
         return StringUtils.leftPad(numberAsString, NUM_CODE_MAX_LENGTH, NUM_CODE_PAD_SYMBOL);
     }

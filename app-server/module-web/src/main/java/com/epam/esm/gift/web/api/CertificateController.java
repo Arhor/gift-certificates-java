@@ -26,7 +26,6 @@ import com.epam.esm.gift.service.BaseService;
 @RequestMapping("/certificates")
 public class CertificateController {
 
-    @SuppressWarnings("unused")
     private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private final BaseService<CertificateDto, Long> service;

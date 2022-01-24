@@ -1,3 +1,4 @@
+// @formatter:off
 pluginManagement {
     plugins {
         id 'org.flywaydb.flyway'                version settings['version.flyway']
@@ -49,3 +50,4 @@ dependencyResolutionManagement {
         }
     }
 }
+// @formatter:on

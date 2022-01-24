@@ -11,7 +11,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @JsonSerialize(using = ErrorCodeSerializer.class)
 public enum ErrorCode {
     // @formatter:off
-
     UNCATEGORIZED            (GEN, 0),
 
     VALIDATION_FAILED        (VAL, 0),
@@ -24,25 +23,33 @@ public enum ErrorCode {
 
     HANDLER_NOT_FOUND        (SRV, 0),
     METHOD_ARG_TYPE_MISMATCH (SRV, 1)
-
     // @formatter:on
     ;
 
-    public final Type type;
-    public final int code;
+    private final Type type;
+    private final int code;
 
     ErrorCode(final Type type, final int code) {
         this.type = type;
         this.code = code;
     }
 
+    public Type getType() {
+        return type;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
     public enum Type {
+        // @formatter:off
         GEN("GENERAL"),
         SEC("SECURITY"),
         VAL("VALIDATION"),
         DAT("DATA"),
         SRV("SERVER"),
-
+        // @formatter:on
         ;
 
         private final String description;

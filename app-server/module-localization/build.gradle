@@ -1,5 +1,6 @@
 dependencies {
     annotationProcessor "org.springframework:spring-context-indexer:${libs.versions.spring.get()}"
 
+    implementation "javax.validation:validation-api:${libs.versions.validationApi.get()}"
     implementation "org.springframework:spring-context:${libs.versions.spring.get()}"
 }

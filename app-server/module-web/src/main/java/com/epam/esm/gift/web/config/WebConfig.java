@@ -1,4 +1,4 @@
-package com.epam.esm.gift.config;
+package com.epam.esm.gift.web.config;
 
 import java.util.List;
 

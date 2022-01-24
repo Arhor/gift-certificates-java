@@ -1,12 +1,22 @@
 package com.epam.esm.gift.web.error;
 
-import static com.epam.esm.gift.localization.config.MessageSourceConfig.ERROR_MESSAGES_BEAN;
+import static com.epam.esm.gift.localization.config.LocalizationConfig.ERROR_MESSAGES_BEAN;
 
+import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.function.Function;
 
+import org.apache.commons.collections4.ListUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -21,6 +31,8 @@ import com.epam.esm.gift.localization.error.LocalizableException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
     private final MessageSource messages;
 
     public GlobalExceptionHandler(@Qualifier(ERROR_MESSAGES_BEAN) final MessageSource messages) {
@@ -29,42 +41,56 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
-    public ApiError handleDefault(final Exception ex, final Locale locale) {
+    public ApiError handleDefault(
+        final Exception exception,
+        final Locale locale
+    ) {
+        log.error("Unhandled exception. Please, consider appropriate exception handler method", exception);
         return new ApiError(
-            messages.getMessage(
-                ErrorLabel.ERROR_SERVER_INTERNAL.getCode(),
-                null,
-                locale
+            findTranslation(
+                locale,
+                ErrorLabel.ERROR_SERVER_INTERNAL
             )
         );
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(EntityNotFoundException.class)
-    public ApiError handleEntityNotFoundException(final EntityNotFoundException ex, final Locale locale) {
+    public ApiError handleEntityNotFoundException(
+        final EntityNotFoundException exception,
+        final Locale locale
+    ) {
         return new ApiError(
-            findTranslationForException(ex, locale),
+            findTranslationForException(locale, exception),
             ErrorCode.NOT_FOUND
         );
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(EntityDuplicateException.class)
-    public ApiError handleEntityDuplicateException(final EntityDuplicateException ex, final Locale locale) {
+    public ApiError handleEntityDuplicateException(
+        final EntityDuplicateException exception,
+        final Locale locale
+    ) {
         return new ApiError(
-            findTranslationForException(ex, locale),
+            findTranslationForException(locale, exception),
             ErrorCode.DUPLICATE
         );
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ApiError handleMethodArgumentTypeMismatchException(final MethodArgumentTypeMismatchException ex, final Locale locale) {
+    public ApiError handleMethodArgumentTypeMismatchException(
+        final MethodArgumentTypeMismatchException exception,
+        final Locale locale
+    ) {
         return new ApiError(
-            messages.getMessage(
-                ErrorLabel.ERROR_VALUE_TYPE_MISMATCH.getCode(),
-                new Object[]{ex.getName(), ex.getValue(), ex.getRequiredType()},
-                locale
+            findTranslation(
+                locale,
+                ErrorLabel.ERROR_VALUE_TYPE_MISMATCH,
+                exception.getName(),
+                exception.getValue(),
+                exception.getRequiredType()
             ),
             ErrorCode.METHOD_ARG_TYPE_MISMATCH
         );
@@ -72,22 +98,81 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoHandlerFoundException.class)
-    public ApiError handleNoHandlerFoundException(final NoHandlerFoundException ex, final Locale locale) {
+    public ApiError handleNoHandlerFoundException(
+        final NoHandlerFoundException exception,
+        final Locale locale
+    ) {
         return new ApiError(
-            messages.getMessage(
-                ErrorLabel.ERROR_SERVER_HANDLER_NOT_FOUND.getCode(),
-                null,
-                locale
+            findTranslation(
+                locale,
+                ErrorLabel.ERROR_SERVER_HANDLER_NOT_FOUND,
+                exception.getHttpMethod(),
+                exception.getRequestURL()
             ),
             ErrorCode.HANDLER_NOT_FOUND
         );
     }
 
-    private String findTranslationForException(final LocalizableException exception, final Locale locale) {
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ApiError handleMethodArgumentNotValidException(
+        final MethodArgumentNotValidException exception,
+        final Locale locale
+    ) {
+        var bindingResult = exception.getBindingResult();
+        var errors = ListUtils.union(
+            handleObjectErrors(
+                bindingResult.getFieldErrors(),
+                FieldError::getField,
+                FieldError::getDefaultMessage
+            ),
+            handleObjectErrors(
+                bindingResult.getGlobalErrors(),
+                ObjectError::getObjectName,
+                ObjectError::getDefaultMessage
+            )
+        );
+
+        log.error("validation failed: {}", exception.getParameter());
+
+        return new ApiError(
+            findTranslation(
+                locale,
+                ErrorLabel.ERROR_ENTITY_VALIDATION_FAILED
+            ),
+            ErrorCode.VALIDATION_FAILED,
+            errors
+        );
+    }
+
+    private String findTranslation(final Locale locale, final ErrorLabel label, final Object... params) {
         return messages.getMessage(
-            exception.getLabel().getCode(),
-            exception.getParams(),
+            label.getCode(),
+            params,
             locale
         );
+    }
+
+    private String findTranslationForException(final Locale locale, final LocalizableException exception) {
+        return findTranslation(
+            locale,
+            exception.getLabel(),
+            exception.getParams()
+        );
+    }
+
+    private <T extends ObjectError> List<String> handleObjectErrors(
+        final List<? extends T> errors,
+        final Function<T, String> nameProvider,
+        final Function<T, String> messageProvider
+    ) {
+        var result = new ArrayList<String>(errors.size());
+        for (var error : errors) {
+            var name = nameProvider.apply(error);
+            var message = messageProvider.apply(error);
+
+            result.add(name + ": " + message);
+        }
+        return result;
     }
 }
