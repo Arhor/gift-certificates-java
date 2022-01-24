@@ -10,6 +10,7 @@ dependencies {
     implementation "org.apache.commons:commons-lang3:${libs.versions.apacheCommonsLang.get()}"
     implementation "org.apache.commons:commons-collections4:${libs.versions.apacheCommonsCollections.get()}"
     implementation "org.hibernate.validator:hibernate-validator:${libs.versions.hibernateValidator.get()}"
+    implementation "org.springframework:spring-aspects:${libs.versions.spring.get()}"
     implementation "org.springframework:spring-webmvc:${libs.versions.spring.get()}"
 
 

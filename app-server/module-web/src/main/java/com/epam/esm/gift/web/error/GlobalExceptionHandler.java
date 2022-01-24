@@ -27,6 +27,7 @@ import com.epam.esm.gift.localization.error.EntityDuplicateException;
 import com.epam.esm.gift.localization.error.EntityNotFoundException;
 import com.epam.esm.gift.localization.error.ErrorLabel;
 import com.epam.esm.gift.localization.error.LocalizableException;
+import com.epam.esm.gift.web.context.CurrentRequestContext;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -34,9 +35,14 @@ public class GlobalExceptionHandler {
     private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private final MessageSource messages;
+    private final CurrentRequestContext currentRequestContext;
 
-    public GlobalExceptionHandler(@Qualifier(ERROR_MESSAGES_BEAN) final MessageSource messages) {
+    public GlobalExceptionHandler(
+        @Qualifier(ERROR_MESSAGES_BEAN) final MessageSource messages,
+        final CurrentRequestContext currentRequestContext
+    ) {
         this.messages = messages;
+        this.currentRequestContext = currentRequestContext;
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -45,8 +51,10 @@ public class GlobalExceptionHandler {
         final Exception exception,
         final Locale locale
     ) {
-        log.error("Unhandled exception. Please, consider appropriate exception handler method", exception);
+        logExceptionWithTraceId(exception, "Unhandled exception. Consider appropriate exception handler method");
+
         return new ApiError(
+            currentRequestContext.getTraceId(),
             findTranslation(
                 locale,
                 ErrorLabel.ERROR_SERVER_INTERNAL
@@ -60,7 +68,10 @@ public class GlobalExceptionHandler {
         final EntityNotFoundException exception,
         final Locale locale
     ) {
+        logExceptionWithTraceId(exception);
+
         return new ApiError(
+            currentRequestContext.getTraceId(),
             findTranslationForException(locale, exception),
             ErrorCode.NOT_FOUND
         );
@@ -72,7 +83,10 @@ public class GlobalExceptionHandler {
         final EntityDuplicateException exception,
         final Locale locale
     ) {
+        logExceptionWithTraceId(exception);
+
         return new ApiError(
+            currentRequestContext.getTraceId(),
             findTranslationForException(locale, exception),
             ErrorCode.DUPLICATE
         );
@@ -84,7 +98,10 @@ public class GlobalExceptionHandler {
         final MethodArgumentTypeMismatchException exception,
         final Locale locale
     ) {
+        logExceptionWithTraceId(exception);
+
         return new ApiError(
+            currentRequestContext.getTraceId(),
             findTranslation(
                 locale,
                 ErrorLabel.ERROR_VALUE_TYPE_MISMATCH,
@@ -102,7 +119,10 @@ public class GlobalExceptionHandler {
         final NoHandlerFoundException exception,
         final Locale locale
     ) {
+        logExceptionWithTraceId(exception);
+
         return new ApiError(
+            currentRequestContext.getTraceId(),
             findTranslation(
                 locale,
                 ErrorLabel.ERROR_SERVER_HANDLER_NOT_FOUND,
@@ -119,6 +139,8 @@ public class GlobalExceptionHandler {
         final MethodArgumentNotValidException exception,
         final Locale locale
     ) {
+        logExceptionWithTraceId(exception);
+
         var bindingResult = exception.getBindingResult();
         var errors = ListUtils.union(
             handleObjectErrors(
@@ -133,9 +155,8 @@ public class GlobalExceptionHandler {
             )
         );
 
-        log.error("validation failed: {}", exception.getParameter());
-
         return new ApiError(
+            currentRequestContext.getTraceId(),
             findTranslation(
                 locale,
                 ErrorLabel.ERROR_ENTITY_VALIDATION_FAILED
@@ -143,6 +164,14 @@ public class GlobalExceptionHandler {
             ErrorCode.VALIDATION_FAILED,
             errors
         );
+    }
+
+    private void logExceptionWithTraceId(final Exception exception) {
+        log.error("Trace-ID: {}", currentRequestContext.getTraceId(), exception);
+    }
+
+    private void logExceptionWithTraceId(final Exception exception, final String message) {
+        log.error("{}, Trace-ID: {}", message, currentRequestContext.getTraceId(), exception);
     }
 
     private String findTranslation(final Locale locale, final ErrorLabel label, final Object... params) {
