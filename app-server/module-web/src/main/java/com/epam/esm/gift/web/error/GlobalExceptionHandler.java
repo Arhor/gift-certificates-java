@@ -53,13 +53,15 @@ public class GlobalExceptionHandler {
     ) {
         logExceptionWithTraceId(exception, "Unhandled exception. Consider appropriate exception handler method");
 
-        return new ApiError(
-            currentRequestContext.getTraceId(),
-            findTranslation(
-                locale,
-                ErrorLabel.ERROR_SERVER_INTERNAL
+        return ApiError.builder()
+            .traceId(currentRequestContext.getTraceId())
+            .message(
+                findTranslation(
+                    locale,
+                    ErrorLabel.ERROR_SERVER_INTERNAL
+                )
             )
-        );
+            .build();
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -70,11 +72,11 @@ public class GlobalExceptionHandler {
     ) {
         logExceptionWithTraceId(exception);
 
-        return new ApiError(
-            currentRequestContext.getTraceId(),
-            findTranslationForException(locale, exception),
-            ErrorCode.NOT_FOUND
-        );
+        return ApiError.builder()
+            .traceId(currentRequestContext.getTraceId())
+            .message(findTranslationForException(locale, exception))
+            .code(ErrorCode.NOT_FOUND)
+            .build();
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
@@ -85,11 +87,11 @@ public class GlobalExceptionHandler {
     ) {
         logExceptionWithTraceId(exception);
 
-        return new ApiError(
-            currentRequestContext.getTraceId(),
-            findTranslationForException(locale, exception),
-            ErrorCode.DUPLICATE
-        );
+        return ApiError.builder()
+            .traceId(currentRequestContext.getTraceId())
+            .message(findTranslationForException(locale, exception))
+            .code(ErrorCode.DUPLICATE)
+            .build();
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -100,17 +102,19 @@ public class GlobalExceptionHandler {
     ) {
         logExceptionWithTraceId(exception);
 
-        return new ApiError(
-            currentRequestContext.getTraceId(),
-            findTranslation(
-                locale,
-                ErrorLabel.ERROR_VALUE_TYPE_MISMATCH,
-                exception.getName(),
-                exception.getValue(),
-                exception.getRequiredType()
-            ),
-            ErrorCode.METHOD_ARG_TYPE_MISMATCH
-        );
+        return ApiError.builder()
+            .traceId(currentRequestContext.getTraceId())
+            .message(
+                findTranslation(
+                    locale,
+                    ErrorLabel.ERROR_VALUE_TYPE_MISMATCH,
+                    exception.getName(),
+                    exception.getValue(),
+                    exception.getRequiredType()
+                )
+            )
+            .code(ErrorCode.METHOD_ARG_TYPE_MISMATCH)
+            .build();
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -121,16 +125,18 @@ public class GlobalExceptionHandler {
     ) {
         logExceptionWithTraceId(exception);
 
-        return new ApiError(
-            currentRequestContext.getTraceId(),
-            findTranslation(
-                locale,
-                ErrorLabel.ERROR_SERVER_HANDLER_NOT_FOUND,
-                exception.getHttpMethod(),
-                exception.getRequestURL()
-            ),
-            ErrorCode.HANDLER_NOT_FOUND
-        );
+        return ApiError.builder()
+            .traceId(currentRequestContext.getTraceId())
+            .message(
+                findTranslation(
+                    locale,
+                    ErrorLabel.ERROR_SERVER_HANDLER_NOT_FOUND,
+                    exception.getHttpMethod(),
+                    exception.getRequestURL()
+                )
+            )
+            .code(ErrorCode.HANDLER_NOT_FOUND)
+            .build();
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -155,15 +161,17 @@ public class GlobalExceptionHandler {
             )
         );
 
-        return new ApiError(
-            currentRequestContext.getTraceId(),
-            findTranslation(
-                locale,
-                ErrorLabel.ERROR_ENTITY_VALIDATION_FAILED
-            ),
-            ErrorCode.VALIDATION_FAILED,
-            errors
-        );
+        return ApiError.builder()
+            .traceId(currentRequestContext.getTraceId())
+            .message(
+                findTranslation(
+                    locale,
+                    ErrorLabel.ERROR_ENTITY_VALIDATION_FAILED
+                )
+            )
+            .code(ErrorCode.VALIDATION_FAILED)
+            .details(errors)
+            .build();
     }
 
     private void logExceptionWithTraceId(final Exception exception) {
@@ -192,8 +200,8 @@ public class GlobalExceptionHandler {
 
     private <T extends ObjectError> List<String> handleObjectErrors(
         final List<? extends T> errors,
-        final Function<T, String> nameProvider,
-        final Function<T, String> messageProvider
+        final Function<? super T, String> nameProvider,
+        final Function<? super T, String> messageProvider
     ) {
         var result = new ArrayList<String>(errors.size());
         for (var error : errors) {

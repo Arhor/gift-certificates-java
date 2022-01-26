@@ -53,6 +53,10 @@ public final class ApiError implements Serializable {
         this.timestamp = timestamp;
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
     @JsonGetter
     public UUID getTraceId() {
         return traceId;
@@ -76,5 +80,43 @@ public final class ApiError implements Serializable {
     @JsonGetter
     public List<String> getDetails() {
         return details;
+    }
+
+    public static final class Builder {
+
+        private UUID traceId;
+        private String message;
+        private ErrorCode code = ErrorCode.UNCATEGORIZED;
+        private List<String> details;
+        private LocalDateTime timestamp = LocalDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.MILLIS);
+
+        public ApiError build() {
+            return new ApiError(traceId, message, code, details, timestamp);
+        }
+
+        public Builder traceId(final UUID traceId) {
+            this.traceId = traceId;
+            return this;
+        }
+
+        public Builder message(final String message) {
+            this.message = message;
+            return this;
+        }
+
+        public Builder code(final ErrorCode code) {
+            this.code = code;
+            return this;
+        }
+
+        public Builder details(final List<String> details) {
+            this.details = details;
+            return this;
+        }
+
+        public Builder timestamp(final LocalDateTime timestamp) {
+            this.timestamp = timestamp;
+            return this;
+        }
     }
 }
