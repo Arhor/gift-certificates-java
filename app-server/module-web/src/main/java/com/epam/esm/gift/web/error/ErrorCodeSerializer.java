@@ -33,7 +33,7 @@ public class ErrorCodeSerializer extends StdSerializer<ErrorCode> {
     }
 
     private String convertCodeToPaddedString(final ErrorCode value) {
-        var numberAsString = String.valueOf(value.getCode());
+        var numberAsString = String.valueOf(value.getNumericValue());
 
         if (numberAsString.length() > NUM_CODE_MAX_LENGTH) {
             log.debug("ErrorCode {} numeric value is too large", value);

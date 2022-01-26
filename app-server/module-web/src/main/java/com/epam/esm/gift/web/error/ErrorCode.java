@@ -27,19 +27,19 @@ public enum ErrorCode {
     ;
 
     private final Type type;
-    private final int code;
+    private final int numericValue;
 
-    ErrorCode(final Type type, final int code) {
+    ErrorCode(final Type type, final int numericValue) {
         this.type = type;
-        this.code = code;
+        this.numericValue = numericValue;
     }
 
     public Type getType() {
         return type;
     }
 
-    public int getCode() {
-        return code;
+    public int getNumericValue() {
+        return numericValue;
     }
 
     public enum Type {
