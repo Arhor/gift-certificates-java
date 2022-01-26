@@ -1,0 +1,53 @@
+// @formatter:off
+pluginManagement {
+    plugins {
+        id 'org.flywaydb.flyway'                version settings['version.flyway']
+        id 'org.gretty'                         version settings['version.gretty']
+        id 'org.jetbrains.kotlin.jvm'           version settings['version.kotlin']
+        id 'org.jetbrains.kotlin.plugin.spring' version settings['version.kotlin']
+    }
+}
+
+rootProject.name = 'gift-certificates-java'
+
+include ':app-server'
+include ':app-server:module-localization'
+include ':app-server:module-repository'
+include ':app-server:module-service'
+include ':app-server:module-web'
+include ':app-server:module-main'
+
+enableFeaturePreview 'VERSION_CATALOGS'
+
+dependencyResolutionManagement {
+    versionCatalogs {
+        libs {
+            // dependency version should be declared in 'gradle.properties' with 'version.' prefix
+            this.properties
+                .findAll { it.key.startsWith 'version.' }
+                .collectEntries { [it.key - 'version.', it.value] }
+                .each { version it.key, it.value }
+
+            alias 'kotlin-stdlib-jdk8'    to 'org.jetbrains.kotlin', 'kotlin-stdlib-jdk8' versionRef 'kotlin'
+            alias 'assertj-core'          to 'org.assertj', 'assertj-core'                versionRef 'assertJCore'
+            alias 'junit-jupiter-params'  to 'org.junit.jupiter', 'junit-jupiter-params'  versionRef 'junitJupiter'
+            alias 'junit-jupiter-api'     to 'org.junit.jupiter', 'junit-jupiter-api'     versionRef 'junitJupiter'
+            alias 'mockito-core'          to 'org.mockito', 'mockito-core'                versionRef 'mockitoCore'
+            alias 'mockito-junit-jupiter' to 'org.mockito', 'mockito-junit-jupiter'       versionRef 'mockitoCore'
+            alias 'mockito-kotlin'        to 'org.mockito.kotlin', 'mockito-kotlin'       versionRef 'mockitoCore'
+            alias 'spring-test'           to 'org.springframework', 'spring-test'         versionRef 'spring'
+
+            bundle  'test-base', [
+                    'kotlin-stdlib-jdk8',
+                    'assertj-core',
+                    'junit-jupiter-params',
+                    'junit-jupiter-api',
+                    'mockito-core',
+                    'mockito-junit-jupiter',
+                    'mockito-kotlin',
+                    'spring-test'
+            ]
+        }
+    }
+}
+// @formatter:on

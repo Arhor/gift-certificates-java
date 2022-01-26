@@ -1,0 +1,13 @@
+dependencies {
+    annotationProcessor "org.mapstruct:mapstruct-processor:${libs.versions.mapstruct.get()}"
+    annotationProcessor "org.springframework:spring-context-indexer:${libs.versions.spring.get()}"
+
+    implementation project(':app-server:module-localization')
+    implementation project(":app-server:module-repository")
+    implementation "org.mapstruct:mapstruct:${libs.versions.mapstruct.get()}"
+    implementation "org.apache.commons:commons-collections4:${libs.versions.apacheCommonsCollections.get()}"
+    implementation "javax.validation:validation-api:${libs.versions.validationApi.get()}"
+    implementation "com.fasterxml.jackson.core:jackson-databind:${libs.versions.jackson.get()}"
+    implementation "org.springframework:spring-context:${libs.versions.spring.get()}"
+    implementation "org.springframework:spring-tx:${libs.versions.spring.get()}"
+}

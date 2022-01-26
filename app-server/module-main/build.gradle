@@ -1,0 +1,16 @@
+plugins {
+    id 'war'
+    id 'org.gretty'
+}
+
+dependencies {
+    implementation project(':app-server:module-web')
+
+    testImplementation "com.tngtech.archunit:archunit-junit5:${libs.versions.archunit.get()}"
+}
+
+gretty {
+    httpPort = 8080
+    contextPath = '/'
+    servletContainer = 'tomcat9'
+}

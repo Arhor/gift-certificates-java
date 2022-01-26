@@ -1,0 +1,10 @@
+wrapper {
+    gradleVersion = libs.versions.gradle.get()
+}
+
+subprojects {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}

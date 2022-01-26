@@ -1,0 +1,87 @@
+{
+    "info": {
+        "name": "Gift Certificates API",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+        {
+            "key": "apiBaseUrl",
+            "value": "http://localhost:8080"
+        }
+    ],
+    "item": [
+        {
+            "name": "Tags",
+            "item": [
+                {
+                    "name": "Get all tags",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{apiBaseUrl}}/tags"
+                    }
+                },
+                {
+                    "name": "Get tag by id",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{apiBaseUrl}}/tags/1"
+                    }
+                },
+                {
+                    "name": "Create new tag",
+                    "request": {
+                        "method": "POST",
+                        "url": "{{apiBaseUrl}}/tags"
+                    }
+                },
+                {
+                    "name": "Delete tag by id",
+                    "request": {
+                        "method": "DELETE",
+                        "url": "{{apiBaseUrl}}/tags/1"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Certificates",
+            "item": [
+                {
+                    "name": "Get all certificates",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{apiBaseUrl}}/certificates"
+                    }
+                },
+                {
+                    "name": "Get certificate by id",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{apiBaseUrl}}/certificates/1"
+                    }
+                },
+                {
+                    "name": "Create new certificate",
+                    "request": {
+                        "method": "POST",
+                        "url": "{{apiBaseUrl}}/certificates"
+                    }
+                },
+                {
+                    "name": "Update an existing certificate",
+                    "request": {
+                        "method": "PATCH",
+                        "url": "{{apiBaseUrl}}/certificates/1"
+                    }
+                },
+                {
+                    "name": "Delete certificate by id",
+                    "request": {
+                        "method": "DELETE",
+                        "url": "{{apiBaseUrl}}/certificates/1"
+                    }
+                }
+            ]
+        }
+    ]
+}
