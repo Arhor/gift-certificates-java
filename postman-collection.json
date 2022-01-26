@@ -24,23 +24,61 @@
                     "name": "Get tag by id",
                     "request": {
                         "method": "GET",
-                        "url": "{{apiBaseUrl}}/tags"
+                        "url": "{{apiBaseUrl}}/tags/1"
                     }
                 },
                 {
                     "name": "Create new tag",
                     "request": {
                         "method": "POST",
-                        "url": "{{apiBaseUrl}}/tags",
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\r\t\"name\": \"creativity\"\r}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
-                        }
+                        "url": "{{apiBaseUrl}}/tags"
+                    }
+                },
+                {
+                    "name": "Delete tag by id",
+                    "request": {
+                        "method": "DELETE",
+                        "url": "{{apiBaseUrl}}/tags/1"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Certificates",
+            "item": [
+                {
+                    "name": "Get all certificates",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{apiBaseUrl}}/certificates"
+                    }
+                },
+                {
+                    "name": "Get certificate by id",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{apiBaseUrl}}/certificates/1"
+                    }
+                },
+                {
+                    "name": "Create new certificate",
+                    "request": {
+                        "method": "POST",
+                        "url": "{{apiBaseUrl}}/certificates"
+                    }
+                },
+                {
+                    "name": "Update an existing certificate",
+                    "request": {
+                        "method": "PATCH",
+                        "url": "{{apiBaseUrl}}/certificates/1"
+                    }
+                },
+                {
+                    "name": "Delete certificate by id",
+                    "request": {
+                        "method": "DELETE",
+                        "url": "{{apiBaseUrl}}/certificates/1"
                     }
                 }
             ]
