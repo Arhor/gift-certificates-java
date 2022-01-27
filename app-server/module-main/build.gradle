@@ -1,16 +1,12 @@
 plugins {
-    id 'war'
-    id 'org.gretty'
+    id 'org.springframework.boot'
+    id 'io.spring.dependency-management'
 }
 
 dependencies {
     implementation project(':app-server:module-web')
+    implementation 'org.springframework.boot:spring-boot-starter'
 
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation "com.tngtech.archunit:archunit-junit5:${libs.versions.archunit.get()}"
-}
-
-gretty {
-    httpPort = 8080
-    contextPath = '/'
-    servletContainer = 'tomcat9'
 }

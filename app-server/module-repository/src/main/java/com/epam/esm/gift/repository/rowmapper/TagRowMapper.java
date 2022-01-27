@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
-import com.epam.esm.gift.model.Tag;
+import com.epam.esm.gift.repository.model.Tag;
 
 @Component
 public class TagRowMapper implements RowMapper<Tag> {

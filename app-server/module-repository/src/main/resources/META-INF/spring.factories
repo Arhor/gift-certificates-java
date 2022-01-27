@@ -1,0 +1,1 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.epam.esm.gift.repository.config.RepositoryConfig

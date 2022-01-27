@@ -1,0 +1,46 @@
+server:
+  port: ${PORT:5000}
+
+  error:
+    whitelabel:
+      enabled: false
+
+spring:
+  application:
+    name: gift-certificates-java
+
+  main:
+    allow-bean-definition-overriding: true
+
+  aop:
+    proxy-target-class: false
+
+  jmx:
+    enabled: false
+
+  profiles:
+    active: ${SPRING_ACTIVE_PROFILES:dev}
+
+  output:
+    ansi:
+      enabled: detect
+
+  sql:
+    init:
+      platform: postgres
+
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: ${JDBC_DATABASE_URL}
+    username: ${JDBC_DATABASE_USERNAME}
+    password: ${JDBC_DATABASE_PASSWORD}
+    hikari:
+      auto-commit: false
+
+  flyway:
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 0.0

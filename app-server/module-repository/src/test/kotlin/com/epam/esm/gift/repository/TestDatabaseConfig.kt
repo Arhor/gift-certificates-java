@@ -1,6 +1,5 @@
 package com.epam.esm.gift.repository
 
-import com.epam.esm.gift.config.FlyWayConfig
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration

@@ -8,9 +8,9 @@ import java.util.stream.Collectors;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.epam.esm.gift.model.Certificate;
 import com.epam.esm.gift.repository.CertificateRepository;
 import com.epam.esm.gift.repository.bootstrap.ColumnProperty;
+import com.epam.esm.gift.repository.model.Certificate;
 
 @Repository
 public class CertificateRepositoryImpl extends AbstractRepository<Certificate, Long> implements CertificateRepository {

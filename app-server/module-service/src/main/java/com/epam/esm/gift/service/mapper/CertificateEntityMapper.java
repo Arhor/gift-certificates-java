@@ -1,12 +1,12 @@
-package com.epam.esm.gift.mapper;
+package com.epam.esm.gift.service.mapper;
 
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import com.epam.esm.gift.config.MapStructConfig;
-import com.epam.esm.gift.dto.CertificateDto;
-import com.epam.esm.gift.model.Certificate;
+import com.epam.esm.gift.repository.model.Certificate;
+import com.epam.esm.gift.service.config.MapStructConfig;
+import com.epam.esm.gift.service.dto.CertificateDto;
 
 @Mapper(
     config = MapStructConfig.class,

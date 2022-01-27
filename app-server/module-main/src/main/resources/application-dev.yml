@@ -1,0 +1,10 @@
+spring:
+  config:
+    import:
+      - optional:file:.env[.properties]    # to run app by main class or jar from the IDE
+      - optional:file:../.env[.properties] # to run app by gradle task bootRun
+
+logging:
+  level:
+    org.springframework.jdbc.core.JdbcTemplate: DEBUG
+    com.epam.esm.gift: DEBUG

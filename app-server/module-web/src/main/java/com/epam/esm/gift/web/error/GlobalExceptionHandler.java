@@ -2,15 +2,13 @@ package com.epam.esm.gift.web.error;
 
 import static com.epam.esm.gift.localization.config.LocalizationConfig.ERROR_MESSAGES_BEAN;
 
-import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Function;
 
 import org.apache.commons.collections4.ListUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
@@ -29,21 +27,17 @@ import com.epam.esm.gift.localization.error.ErrorLabel;
 import com.epam.esm.gift.localization.error.LocalizableException;
 import com.epam.esm.gift.web.context.CurrentRequestContext;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestControllerAdvice
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class GlobalExceptionHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-
+    @Qualifier(ERROR_MESSAGES_BEAN)
     private final MessageSource messages;
     private final CurrentRequestContext currentRequestContext;
-
-    public GlobalExceptionHandler(
-        @Qualifier(ERROR_MESSAGES_BEAN) final MessageSource messages,
-        final CurrentRequestContext currentRequestContext
-    ) {
-        this.messages = messages;
-        this.currentRequestContext = currentRequestContext;
-    }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)

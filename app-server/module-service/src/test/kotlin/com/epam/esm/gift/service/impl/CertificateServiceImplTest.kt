@@ -1,12 +1,12 @@
 package com.epam.esm.gift.service.impl
 
-import com.epam.esm.gift.dto.CertificateDto
 import com.epam.esm.gift.localization.error.EntityNotFoundException
-import com.epam.esm.gift.mapper.CertificateEntityMapper
-import com.epam.esm.gift.mapper.TagEntityMapper
-import com.epam.esm.gift.model.Certificate
 import com.epam.esm.gift.repository.CertificateRepository
 import com.epam.esm.gift.repository.TagRepository
+import com.epam.esm.gift.repository.model.Certificate
+import com.epam.esm.gift.service.dto.CertificateDto
+import com.epam.esm.gift.service.mapper.CertificateEntityMapper
+import com.epam.esm.gift.service.mapper.TagEntityMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatExceptionOfType
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable
@@ -39,7 +39,8 @@ internal class CertificateServiceImplTest {
         // given
         val testId = 1L
         val testName = "test"
-        val tag = Certificate().apply { id = testId; name = testName }
+        val tag = Certificate()
+            .apply { id = testId; name = testName }
         val tagDTO = CertificateDto.builder().id(testId).name(testName).build()
 
         whenever(certificateRepository.findById(anyLong())) doReturn Optional.of(tag)
@@ -133,7 +134,8 @@ internal class CertificateServiceImplTest {
     fun `should delete certificate by id`() {
         // given
         val testId = 1L
-        val certificate = Certificate().apply { id = testId; name = "test" }
+        val certificate = Certificate()
+            .apply { id = testId; name = "test" }
 
         whenever(certificateRepository.findById(testId)) doReturn Optional.of(certificate)
 

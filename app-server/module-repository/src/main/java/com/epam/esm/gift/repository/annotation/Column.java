@@ -1,4 +1,4 @@
-package com.epam.esm.gift.annotation;
+package com.epam.esm.gift.repository.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -9,5 +9,7 @@ import java.lang.annotation.Target;
 @Documented
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Id {
+public @interface Column {
+
+    String name() default "";
 }

@@ -1,4 +1,4 @@
-package com.epam.esm.gift.mapper;
+package com.epam.esm.gift.service.mapper;
 
 public interface EntityMapper<A, B> {
 

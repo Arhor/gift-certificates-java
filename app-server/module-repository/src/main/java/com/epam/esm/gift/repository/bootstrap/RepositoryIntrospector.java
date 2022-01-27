@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import com.epam.esm.gift.annotation.Column;
-import com.epam.esm.gift.annotation.Id;
-import com.epam.esm.gift.annotation.Table;
+import com.epam.esm.gift.repository.annotation.Column;
+import com.epam.esm.gift.repository.annotation.Id;
+import com.epam.esm.gift.repository.annotation.Table;
 import com.epam.esm.gift.repository.impl.AbstractRepository;
 
 @Component

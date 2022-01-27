@@ -5,6 +5,9 @@ pluginManagement {
         id 'org.gretty'                         version settings['version.gretty']
         id 'org.jetbrains.kotlin.jvm'           version settings['version.kotlin']
         id 'org.jetbrains.kotlin.plugin.spring' version settings['version.kotlin']
+        id 'org.springframework.boot'           version settings['version.springBoot']
+        id 'io.spring.dependency-management'    version settings['version.springDependencyManagement']
+        id "io.freefair.lombok"                 version settings['version.lombok']
     }
 }
 

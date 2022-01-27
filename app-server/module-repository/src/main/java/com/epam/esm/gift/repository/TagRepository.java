@@ -3,7 +3,7 @@ package com.epam.esm.gift.repository;
 import java.util.List;
 import java.util.Optional;
 
-import com.epam.esm.gift.model.Tag;
+import com.epam.esm.gift.repository.model.Tag;
 
 public interface TagRepository extends BaseRepository<Tag, Long> {
 

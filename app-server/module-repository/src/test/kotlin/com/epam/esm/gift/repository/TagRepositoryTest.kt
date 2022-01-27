@@ -1,7 +1,7 @@
 package com.epam.esm.gift.repository
 
-import com.epam.esm.gift.model.Certificate
-import com.epam.esm.gift.model.Tag
+import com.epam.esm.gift.repository.model.Certificate
+import com.epam.esm.gift.repository.model.Tag
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.from
 import org.junit.jupiter.api.Test

@@ -1,29 +1,25 @@
 package com.epam.esm.gift.web.aspect;
 
-import java.lang.invoke.MethodHandles;
-
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.epam.esm.gift.web.context.CurrentRequestContext;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Aspect
 @Component
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class MethodExecutionLoggingAspect {
 
-    private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-
     private final CurrentRequestContext currentRequestContext;
-
-    public MethodExecutionLoggingAspect(final CurrentRequestContext currentRequestContext) {
-        this.currentRequestContext = currentRequestContext;
-    }
 
     @Before(value = "webLayer() || serviceLayer() || repositoryLayer()")
     public void intercept(final JoinPoint joinPoint) {

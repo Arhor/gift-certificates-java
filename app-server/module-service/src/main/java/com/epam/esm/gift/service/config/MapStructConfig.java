@@ -1,4 +1,4 @@
-package com.epam.esm.gift.config;
+package com.epam.esm.gift.service.config;
 
 import org.mapstruct.MapperConfig;
 import org.mapstruct.NullValueMappingStrategy;

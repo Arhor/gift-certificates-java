@@ -1,0 +1,1 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.epam.esm.gift.localization.config.LocalizationConfig

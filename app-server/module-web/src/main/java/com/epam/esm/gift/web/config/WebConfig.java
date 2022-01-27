@@ -1,20 +1,22 @@
 package com.epam.esm.gift.web.config;
 
 import java.util.List;
+import java.util.Locale;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 @EnableWebMvc
-@EnableAspectJAutoProxy
 @Configuration(proxyBeanMethods = false)
 @ComponentScan("com.epam.esm.gift.web")
 public class WebConfig implements WebMvcConfigurer {
@@ -28,5 +30,12 @@ public class WebConfig implements WebMvcConfigurer {
                 objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
             }
         }
+    }
+
+    @Bean
+    public LocaleResolver localeResolver() {
+        var localeResolver = new AcceptHeaderLocaleResolver();
+        localeResolver.setDefaultLocale(Locale.ENGLISH);
+        return localeResolver;
     }
 }

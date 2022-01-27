@@ -1,12 +1,17 @@
 package com.epam.esm.gift.repository.impl;
 
-import com.epam.esm.gift.model.Tag;
-import com.epam.esm.gift.repository.TagRepository;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.StringJoiner;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import java.util.*;
+
+import com.epam.esm.gift.repository.TagRepository;
+import com.epam.esm.gift.repository.model.Tag;
 
 @Repository
 public class TagRepositoryImpl extends AbstractRepository<Tag, Long> implements TagRepository {

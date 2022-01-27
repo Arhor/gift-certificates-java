@@ -1,4 +1,4 @@
-package com.epam.esm.gift.model;
+package com.epam.esm.gift.repository.model;
 
 import java.io.Serializable;
 

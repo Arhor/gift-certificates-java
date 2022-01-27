@@ -3,6 +3,9 @@ plugins {
     id 'jacoco'
     id 'org.jetbrains.kotlin.jvm'           apply false
     id 'org.jetbrains.kotlin.plugin.spring' apply false
+    id 'org.springframework.boot'           apply false
+    id 'io.spring.dependency-management'    apply false
+    id "io.freefair.lombok"                 apply false
 }
 
 ext {
@@ -20,6 +23,9 @@ subprojects {
     apply plugin: 'jacoco'
     apply plugin: 'org.jetbrains.kotlin.jvm'
     apply plugin: 'org.jetbrains.kotlin.plugin.spring'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: "io.freefair.lombok"
 
     def javaVersion = libs.versions.java.get()
 
@@ -27,11 +33,13 @@ subprojects {
     targetCompatibility = javaVersion
 
     dependencies {
-        implementation "ch.qos.logback:logback-core:${libs.versions.logback.get()}"
-        implementation "ch.qos.logback:logback-classic:${libs.versions.logback.get()}"
+        annotationProcessor "org.springframework:spring-context-indexer"
+
+        implementation "org.springframework.boot:spring-boot-starter"
+
+        testImplementation "org.springframework.boot:spring-boot-starter-test"
 
         testImplementation libs.bundles.test.base
-        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${libs.versions.junitJupiter.get()}"
     }
 
     tasks.withType(JavaCompile) {

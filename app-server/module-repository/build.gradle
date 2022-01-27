@@ -2,18 +2,24 @@ plugins {
     id 'org.flywaydb.flyway'
 }
 
+dependencyManagement {
+    imports {
+        mavenBom "org.testcontainers:testcontainers-bom:${libs.versions.testcontainers.get()}"
+    }
+}
+
 dependencies {
-    annotationProcessor "org.springframework:spring-context-indexer:${libs.versions.spring.get()}"
+    implementation "org.flywaydb:flyway-core"
+    implementation "org.springframework.boot:spring-boot-starter-jdbc"
 
-    implementation "org.flywaydb:flyway-core:${libs.versions.flyway.get()}"
-    implementation "com.zaxxer:HikariCP:${libs.versions.hikariCP.get()}"
-    implementation "org.springframework:spring-context:${libs.versions.spring.get()}"
-    implementation "org.springframework:spring-jdbc:${libs.versions.spring.get()}"
+    runtimeOnly "org.postgresql:postgresql"
 
-    runtimeOnly "org.postgresql:postgresql:${libs.versions.postgresql.get()}"
+    testImplementation "org.testcontainers:junit-jupiter"
+    testImplementation "org.testcontainers:postgresql"
+}
 
-    testImplementation "org.testcontainers:junit-jupiter:${libs.versions.testcontainers.get()}"
-    testImplementation "org.testcontainers:postgresql:${libs.versions.testcontainers.get()}"
+bootJar {
+    enabled = false
 }
 
 flyway {

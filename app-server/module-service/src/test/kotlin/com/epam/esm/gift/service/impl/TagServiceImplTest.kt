@@ -1,11 +1,11 @@
 package com.epam.esm.gift.service.impl
 
-import com.epam.esm.gift.dto.TagDto
 import com.epam.esm.gift.localization.error.EntityDuplicateException
 import com.epam.esm.gift.localization.error.EntityNotFoundException
-import com.epam.esm.gift.mapper.TagEntityMapper
-import com.epam.esm.gift.model.Tag
 import com.epam.esm.gift.repository.TagRepository
+import com.epam.esm.gift.repository.model.Tag
+import com.epam.esm.gift.service.dto.TagDto
+import com.epam.esm.gift.service.mapper.TagEntityMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatExceptionOfType
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable

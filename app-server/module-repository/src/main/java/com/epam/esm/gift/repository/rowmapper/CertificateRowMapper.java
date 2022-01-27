@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
-import com.epam.esm.gift.model.Certificate;
+import com.epam.esm.gift.repository.model.Certificate;
 
 @Component
 public class CertificateRowMapper implements RowMapper<Certificate> {

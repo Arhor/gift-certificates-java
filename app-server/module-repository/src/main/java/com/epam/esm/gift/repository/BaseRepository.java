@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
-import com.epam.esm.gift.model.Entity;
+import com.epam.esm.gift.repository.model.Entity;
 
 public interface BaseRepository<T extends Entity<K>, K extends Serializable> {
 

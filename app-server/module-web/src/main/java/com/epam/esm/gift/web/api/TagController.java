@@ -2,6 +2,7 @@ package com.epam.esm.gift.web.api;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -15,18 +16,17 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.epam.esm.gift.dto.TagDto;
 import com.epam.esm.gift.service.BaseService;
+import com.epam.esm.gift.service.dto.TagDto;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/tags")
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class TagController {
 
     private final BaseService<TagDto, Long> service;
-
-    public TagController(final BaseService<TagDto, Long> service) {
-        this.service = service;
-    }
 
     @GetMapping
     public List<TagDto> getAllTags() {
@@ -46,7 +46,7 @@ public class TagController {
         var location =
             ServletUriComponentsBuilder.fromCurrentRequestUri()
                 .path("/{id}")
-                .build(createdTag.id());
+                .build(createdTag.getId());
 
         return ResponseEntity.created(location).body(createdTag);
     }

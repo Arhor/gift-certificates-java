@@ -1,6 +1,6 @@
 package com.epam.esm.gift.repository
 
-import com.epam.esm.gift.model.Certificate
+import com.epam.esm.gift.repository.model.Certificate
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
@@ -101,7 +101,8 @@ internal class CertificateRepositoryTest {
         assertThat(certificateFromRepository).isEmpty
     }
 
-    private fun createTestCertificate(testName: String) = Certificate().apply {
+    private fun createTestCertificate(testName: String) = Certificate()
+        .apply {
         name = testName
         description = "Test certificate description"
         price = BigDecimal("1.00")
