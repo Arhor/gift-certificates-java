@@ -2,10 +2,20 @@ package com.epam.esm.gift.repository.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
-import com.epam.esm.gift.repository.annotation.Column;
-import com.epam.esm.gift.repository.annotation.Id;
-import com.epam.esm.gift.repository.annotation.Table;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,8 +28,9 @@ import lombok.With;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 @Table(name = "certificates")
-public class Certificate implements Entity<Long>, Auditable<LocalDateTime> {
+public class Certificate implements BaseEntity<Long>, Auditable<LocalDateTime> {
 
     public static final String COL_ID = "id";
     public static final String COL_NAME = "name";
@@ -30,6 +41,7 @@ public class Certificate implements Entity<Long>, Auditable<LocalDateTime> {
     public static final String COL_DATE_TIME_UPDATED = "date_time_updated";
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = COL_ID)
     private Long id;
 
@@ -45,9 +57,19 @@ public class Certificate implements Entity<Long>, Auditable<LocalDateTime> {
     @Column(name = COL_DURATION)
     private Integer duration;
 
+    @CreatedDate
     @Column(name = COL_DATE_TIME_CREATED)
     private LocalDateTime dateTimeCreated;
 
+    @LastModifiedDate
     @Column(name = COL_DATE_TIME_UPDATED)
     private LocalDateTime dateTimeUpdated;
+
+    @ManyToMany
+    @JoinTable(
+        name = "certificates_has_tags",
+        joinColumns = @JoinColumn(name = "certificate_id"),
+        inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private List<Tag> tags;
 }

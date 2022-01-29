@@ -21,9 +21,9 @@ import com.epam.esm.gift.repository.bootstrap.Queries;
 import com.epam.esm.gift.repository.bootstrap.QueryProvider;
 import com.epam.esm.gift.repository.bootstrap.RepositoryIntrospector;
 import com.epam.esm.gift.repository.model.Auditable;
-import com.epam.esm.gift.repository.model.Entity;
+import com.epam.esm.gift.repository.model.BaseEntity;
 
-public abstract class AbstractRepository<T extends Entity<K>, K extends Serializable>
+public abstract class AbstractRepository<T extends BaseEntity<K>, K extends Serializable>
     implements BaseRepository<T, K>, InitializingBean {
 
     protected RowMapper<T> rowMapper;
